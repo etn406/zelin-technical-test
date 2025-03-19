@@ -4,13 +4,17 @@
   "scripts": {
     "start:production": "node dist/server.js",
     "build:production": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prewatch": "tsc --project tsconfig.dev.json",
+    "watch": "concurrently --names tsc,node \"npm run watch:build\" \"npm run watch:serve\"",
+    "watch:build": "tsc --project tsconfig.dev.json --watch --preserveWatchOutput",
+    "watch:serve": "node --inspect=0.0.0.0:9229 --env-file=../.env --watch-path=dist --watch-preserve-output dist/server.js"
   },
   "dependencies": {
     "express": "^5.0.1",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.1",
+    "concurrently": "^9.1.2"
   }
 }
