@@ -5,7 +5,7 @@ As requested, it's a "personnal library manager", to handle a list of books.
 
 - [Original readme with technical/features requirements](https://github.com/Zelin-SAS/technical-test).
 
-## Technical Stack
+## Technical Stack Choices
 
 ### REST API server with Express v5
 
@@ -15,12 +15,12 @@ I chose REST over GraphQL because REST is simpler to implement with Express. In 
 
 ### Front-end application with Angular v19
 
-Since it's the frontend framework used by Zelin, and also the one I'm the most specialized on.
+I went with Angular as it's the frontend framework used by Zelin, and also because the one I'm the most specialized on.
 The Angular application isn't served by the Express server but by a separated nginx server, for decoupling (easier scaling, faster server startup, etc...)
 
 ### Postgres Database
 
-The structure of our entities (books) is predictable, simple. There is no need for a NoSQL database, which is more optimized for large/rapidly-changing/unstructured data.
+The structure of our entities (books) is predictable, simple. There is no need for a NoSQL database, which is more optimized for large/rapidly-changing/unstructured data. So I went for a simple PostgreSQL database.
 
 ## Features
 
@@ -35,9 +35,9 @@ The structure of our entities (books) is predictable, simple. There is no need f
 - [ ] Search feature
 - [ ] Responsive interface
 
-## Starting the application
+## Technical Choices
 
-### Local or Containerized
+### Local / Containerized
 
 Depending of your context, you may start the application in Docker containers for testing or production, or in your local development environment.
 
@@ -45,7 +45,7 @@ I do not recommend to use Docker containers for active local development in `ser
 
 Even if you intend to setup a development environment, you still need Docker locally for the PostgreSQL database service.
 
-### Services from docker-compose.yml
+#### Services from the `docker-compose.yml`
 
 - `client` is the Angular frontend, served by nginx. It's not dependent on the `server` or `db` containers to run.
 
@@ -57,7 +57,7 @@ Even if you intend to setup a development environment, you still need Docker loc
 
 Create your local `.env` file: `cp .env.example .env` and modify it to match your needs, it will be used similarly by Docker Compose or by the local development startup scripts.
 
-### Containerized Environment
+### Starting the containerized stack
 
 To start the application in a Docker container, for example for a production environment, simply build and run it using Docker compose.
 
@@ -66,7 +66,7 @@ docker compose build
 docker compose up
 ```
 
-### Local Development Environment
+### Starting a local development environment
 
 #### Database
 
