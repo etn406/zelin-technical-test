@@ -4,6 +4,9 @@
 # Build
 **/dist
 
+# Environment file
+.env
+
 # OS generated files
 .DS_Store
 Thumbs.db

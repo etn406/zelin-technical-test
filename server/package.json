@@ -2,8 +2,8 @@
   "name": "zelin-technical-test-server",
   "version": "0.0.1",
   "scripts": {
-    "start": "node dist/server.js",
-    "build": "tsc",
+    "start:production": "node dist/server.js",
+    "build:production": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
