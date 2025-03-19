@@ -34,3 +34,53 @@ The structure of our entities (books) is predictable, simple. There is no need f
 - [ ] Multi-user
 - [ ] Search feature
 - [ ] Responsive interface
+
+## Starting the application
+
+### Local or Containerized
+
+Depending of your context, you may start the application in Docker containers for testing or production, or in your local development environment.
+
+I do not recommend to use Docker containers for active local development in `server` or `client` folders, as it will only cause issues and slowdowns with the Node Inspector, watch mode, node modules, and complicate the configuration.
+
+Even if you intend to setup a development environment, you still need Docker locally for the PostgreSQL database service.
+
+### Services from docker-compose.yml
+
+- `client` is the Angular frontend, served by nginx. It's not dependent on the `server` or `db` containers to run.
+
+- `server` is the Node / Express backend, and it's dependent on the `db` container to run.
+
+- `db` is simply the PostgreSQL database container.
+
+### Setting up the environment
+
+Create your local `.env` file: `cp .env.example .env` and modify it to match your needs, it will be used similarly by Docker Compose or by the local development startup scripts.
+
+### Containerized Environment
+
+To start the application in a Docker container, for example for a production environment, simply build and run it using Docker compose.
+
+```sh
+docker compose build
+docker compose up
+```
+
+### Local Development Environment
+
+#### Database
+
+TODO
+
+#### Server
+
+To automatically start the TypeScript compiler in watch mode, and concurrently the Express server in watch mode, with the Node Inspector debugging tools:
+
+```sh
+$ cd server
+$ npm run watch
+```
+
+#### Client
+
+TODO
