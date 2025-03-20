@@ -1,6 +1,7 @@
 {
   "name": "zelin-technical-test-server",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "start:production": "node dist/server.js",
     "build:production": "tsc",
