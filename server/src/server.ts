@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import "reflect-metadata";
 import { NODE_ENV, SERVER_PORT } from "./env";
 
 const app = express();
