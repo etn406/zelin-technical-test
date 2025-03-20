@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import "reflect-metadata";
-import { NODE_ENV, SERVER_PORT } from "./env";
+import { initializeDataSource } from "./data-source.js";
+import { SERVER_PORT } from "./env.js";
+await initializeDataSource();
 
 const app = express();
 

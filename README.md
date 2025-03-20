@@ -47,11 +47,11 @@ Even if you intend to setup a development environment, you still need Docker loc
 
 #### Services from the `docker-compose.yml`
 
-- `client` is the Angular frontend, served by nginx. It's not dependent on the `server` or `db` containers to run.
+- `client` is the Angular frontend, served by nginx. It's not dependent on the `server` or `db` services to run.
 
-- `server` is the Node / Express backend, and it's dependent on the `db` container to run.
+- `server` is the Node / Express backend, and it's dependent on the `db` service to run.
 
-- `db` is simply the PostgreSQL database container.
+- `db` is the PostgreSQL database service.
 
 ### Setting up the environment
 
@@ -70,7 +70,11 @@ docker compose up
 
 #### Database
 
-TODO
+Start only the database service with:
+
+```sh
+docker compose up db
+```
 
 #### Server
 
