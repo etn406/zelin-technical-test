@@ -1,17 +1,17 @@
 openapi: 3.0.4
 info:
-  title: Gestionnaire de Bibliothèque Personnelle
-  description: Une API pour gérer une bibliothèque personnelle de livres.
+  title: Personal Library Manager
+  description: An API to manage a personal library of books.
   version: 1.0.0
 
 paths:
   /books:
     get:
-      summary: Liste tous les livres
-      description: Récupère une liste de tous les livres dans la bibliothèque.
+      summary: List all books
+      description: Retrieves a list of all books in the library.
       responses:
         "200":
-          description: Liste des livres récupérée avec succès.
+          description: List of books successfully retrieved.
           content:
             application/json:
               schema:
@@ -19,8 +19,8 @@ paths:
                 items:
                   $ref: "#/components/schemas/Book"
     post:
-      summary: Ajoute un nouveau livre
-      description: Ajoute un nouveau livre à la bibliothèque.
+      summary: Add a new book
+      description: Adds a new book to the library.
       requestBody:
         required: true
         content:
@@ -29,36 +29,36 @@ paths:
               $ref: "#/components/schemas/Book"
       responses:
         "201":
-          description: Livre ajouté avec succès.
+          description: Book successfully added.
 
   /books/{id}:
     get:
-      summary: Récupère un livre
-      description: Récupère les détails d'un livre spécifique.
+      summary: Retrieve a book
+      description: Retrieves the details of a specific book.
       parameters:
         - name: id
           in: path
           required: true
-          description: ID du livre
+          description: Book ID
           schema:
             type: string
       responses:
         "200":
-          description: Détails du livre récupérés avec succès.
+          description: Book details successfully retrieved.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Book"
         "404":
-          description: Livre non trouvé.
+          description: Book not found.
     put:
-      summary: Met à jour un livre
-      description: Met à jour les informations d'un livre spécifique.
+      summary: Update a book
+      description: Updates the information of a specific book.
       parameters:
         - name: id
           in: path
           required: true
-          description: ID du livre
+          description: Book ID
           schema:
             type: string
       requestBody:
@@ -68,48 +68,47 @@ paths:
             schema:
               $ref: "#/components/schemas/Book"
       responses:
-        "200":
-          description: Livre mis à jour avec succès.
+          description: Book successfully updated.
         "404":
-          description: Livre non trouvé.
-    delete:
-      summary: Supprime un livre
-      description: Supprime un livre spécifique de la bibliothèque.
-      parameters:
+          description: Book not found.
+      delete:
+        summary: Delete a book
+        description: Deletes a specific book from the library.
+        parameters:
         - name: id
           in: path
           required: true
-          description: ID du livre
+          description: Book ID
           schema:
-            type: string
-      responses:
+          type: string
+        responses:
         "204":
-          description: Livre supprimé avec succès.
+          description: Book successfully deleted.
         "404":
-          description: Livre non trouvé.
+          description: Book not found.
 
-components:
-  schemas:
-    Book:
-      type: object
-      properties:
+    components:
+      schemas:
+      Book:
+        type: object
+        properties:
         id:
           type: string
-          description: ID unique du livre.
+          description: Unique ID of the book.
         title:
           type: string
-          description: Titre du livre.
+          description: Title of the book.
         author:
           type: string
-          description: Auteur du livre.
+          description: Author of the book.
         publicationDate:
           type: string
           format: date
-          description: Date de publication du livre.
+          description: Publication date of the book.
         summary:
           type: string
-          description: Résumé du livre.
-      required:
+          description: Summary of the book.
+        required:
         - id
         - title
         - author
