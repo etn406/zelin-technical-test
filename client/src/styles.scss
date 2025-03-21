@@ -7,15 +7,31 @@ html {
   @include mat.theme((
     color: (
       theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      primary: mat.$spring-green-palette,
+      tertiary: mat.$yellow-palette,
     ),
     typography: Roboto,
     density: 0,
   ));
 }
 
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body { 
+  margin: auto;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+@media (min-width: 768px) {
+  body {
+    width: 70%;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    width: 60%;
+  }
+}

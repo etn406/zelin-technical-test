@@ -1,0 +1,16 @@
+header {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem;
+
+    img {
+        height: 2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+        line-height: 2rem;
+        margin: 0;
+        margin-left: 1.5rem;
+    }
+}
