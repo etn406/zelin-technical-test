@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="18.055mm" height="12.168mm" version="1.1" viewBox="0 0 18.055 12.168" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient2571" x1="102" x2="102" y1="145" y2="140" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#c6974c" offset="0"/>
+   <stop stop-color="#f6d383" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g transform="translate(-87.5 -132.83)">
+  <g>
+   <path d="m92 140v5h13.25c0.41441 0 0.37947-5e-3 0.0602-0.25643-0.51683-0.40775-0.87239-1.2592-0.87239-2.2436 0-0.96131 0.33911-1.7959 0.83638-2.2142 0.32984-0.27744 0.3694-0.28578-0.0707-0.28578z" fill="url(#linearGradient2571)" stop-color="#000000" style="paint-order:markers stroke fill"/>
+   <path d="m90 140c-1.3806-6e-5 -2.4999 1.119-2.5001 2.4996-5.5e-5 1.3808 1.1193 2.5002 2.5001 2.5001h5.9996c-0.05164 0-0.10268-2e-3 -0.15348-6e-3a2.5 2.5 0 0 1-2.3461-2.4944 2.5 2.5 0 0 1 2.3461-2.4939c0.0508-4e-3 0.10184-6e-3 0.15348-6e-3z" fill="#363636" stop-color="#000000" style="paint-order:markers stroke fill"/>
+   <path d="m97 140h2v3l-1-1-1 1z" fill="#e14a63" stop-color="#000000" stroke-dashoffset=".37795" stroke-linecap="round" stroke-width=".4" style="paint-order:markers stroke fill"/>
+  </g>
+  <g transform="matrix(1.6327 0 0 1.6555 -55.906 -115.83)">
+   <path d="m89.542 150.2c-0.9343-5e-5 -1.6914 0.85694-1.6916 1.9137-3.7e-5 1.0569 0.75714 1.9138 1.6916 1.9137l9.1264 8e-5c0.28044 0 0.25698-4e-3 0.0409-0.1962-0.34976-0.31212-0.59032-0.96405-0.59032-1.7175 0-0.73583 0.22932-1.3748 0.56584-1.695 0.22321-0.21236 0.24992-0.21874-0.0479-0.21874z" fill="#404040" stop-color="#000000" style="paint-order:markers stroke fill"/>
+   <path d="m92.291 150.51c-0.78481 1.6e-4 -1.4209 0.71984-1.4209 1.6075-5.1e-5 0.8877 0.63608 1.6074 1.4209 1.6076h6.3119c-0.29132-0.34082-0.48436-0.93307-0.48436-1.6076 0-0.67438 0.19277-1.2667 0.48401-1.6075z" fill="#eee0c8" stop-color="#000000" style="font-variation-settings:normal;paint-order:markers stroke fill"/>
+   <path d="m92.161 151.61h5.3309" fill="none" stop-color="#000000" stroke="#000" stroke-dashoffset="1.4285" stroke-linecap="round" stroke-opacity=".052454" stroke-width=".16444" style="font-variation-settings:normal;paint-order:markers stroke fill"/>
+   <path d="m92.161 152.62h5.3309" fill="none" stop-color="#000000" stroke="#000" stroke-dashoffset="1.4285" stroke-linecap="round" stroke-opacity=".052454" stroke-width=".16444" style="font-variation-settings:normal;paint-order:markers stroke fill"/>
+  </g>
+ </g>
+</svg>
