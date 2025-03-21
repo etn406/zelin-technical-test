@@ -1,15 +1,22 @@
 import { Router } from "express";
-import { NODE_ENV } from "../env.js";
+import { getBooks, insertNewBook } from "../services/books.js";
 
 const booksRouter = Router();
 
-booksRouter.get("/", (req, res) => {
-  res.status(200).json({
-    text: "Hello from the Zelin Technical Test server!",
-    env: NODE_ENV,
+booksRouter.get("/", async (req, res) => {
+  const books = await getBooks();
+  books.push({
+    title: "Hello from the Zelin Technical Test server!",
+    id: 123,
+    deleted: false,
+    isbn: "123",
   });
-
-  console.log("Hello from the Zelin Technical Test server!");
+  res.status(200).json(books);
 });
 
-export { booksRouter as homeRouter };
+booksRouter.post("/", async (req, res) => {
+  const newBook = await insertNewBook(req.body);
+  res.status(201).json(newBook);
+});
+
+export { booksRouter };

@@ -1,0 +1,115 @@
+openapi: 3.0.4
+info:
+  title: Gestionnaire de Bibliothèque Personnelle
+  description: Une API pour gérer une bibliothèque personnelle de livres.
+  version: 1.0.0
+
+paths:
+  /books:
+    get:
+      summary: Liste tous les livres
+      description: Récupère une liste de tous les livres dans la bibliothèque.
+      responses:
+        "200":
+          description: Liste des livres récupérée avec succès.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+    post:
+      summary: Ajoute un nouveau livre
+      description: Ajoute un nouveau livre à la bibliothèque.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "201":
+          description: Livre ajouté avec succès.
+
+  /books/{id}:
+    get:
+      summary: Récupère un livre
+      description: Récupère les détails d'un livre spécifique.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du livre
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Détails du livre récupérés avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        "404":
+          description: Livre non trouvé.
+    put:
+      summary: Met à jour un livre
+      description: Met à jour les informations d'un livre spécifique.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du livre
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        "200":
+          description: Livre mis à jour avec succès.
+        "404":
+          description: Livre non trouvé.
+    delete:
+      summary: Supprime un livre
+      description: Supprime un livre spécifique de la bibliothèque.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du livre
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Livre supprimé avec succès.
+        "404":
+          description: Livre non trouvé.
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID unique du livre.
+        title:
+          type: string
+          description: Titre du livre.
+        author:
+          type: string
+          description: Auteur du livre.
+        publicationDate:
+          type: string
+          format: date
+          description: Date de publication du livre.
+        summary:
+          type: string
+          description: Résumé du livre.
+      required:
+        - id
+        - title
+        - author
