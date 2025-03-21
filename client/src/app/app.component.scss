@@ -1,16 +1,52 @@
 header {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--mat-sys-display-small);
+  // line-height: var(--mat-sys-display-small);
+  align-items: center;
 
+  img {
+    height: 1em;
+  }
+
+  h1 {
+    font-size: 1em;
+    margin: 0;
+    margin-left: 1.5em;
+  }
+
+  &.isHandset {
     img {
-        height: 2rem;
+      margin-left: 0.5em;
     }
 
     h1 {
-        font-size: 2rem;
-        line-height: 2rem;
-        margin: 0;
-        margin-left: 1.5rem;
+      margin-left: 0.5em;
     }
+  }
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 16rem;
+  padding: 0.5rem;
+
+  mat-nav-list a {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .mat-toolbar {
+    background: inherit;
+
+    &.mat-primary {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+  }
 }

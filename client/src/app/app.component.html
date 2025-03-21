@@ -1,13 +1,49 @@
-<header>
-  <img src="logo.svg" alt="Logo representing a pile of books" />
-  <h1>Personnal Library</h1>
-</header>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-nav-list>
+      <h3 matSubheader>Books</h3>
 
-<main>
-  <nav>
-    <a href="/books">Books</a>
-    <a href="/authors">Authors</a>
-  </nav>
-</main>
+      <a mat-list-item href="/books">
+        <mat-icon matListItemIcon>view_list</mat-icon>
+        All Books
+      </a>
 
-<router-outlet />
+      <a mat-list-item href="/books?filter=lent">
+        <mat-icon matListItemIcon>group</mat-icon>
+        Lent Books
+      </a>
+
+      <a mat-list-item href="/add-book">
+        <mat-icon matListItemIcon>add</mat-icon>
+        Add a book
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      @if (isHandset$ | async) {
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      }
+      <header [class.isHandset]="isHandset$ | async">
+        <img src="logo.svg" alt="Books Logo" />
+        <h1>My Personnal Library</h1>
+      </header>
+    </mat-toolbar>
+
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>
