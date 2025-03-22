@@ -63,8 +63,7 @@
               "buildTarget": "zelin-technical-test-client:build:production"
             },
             "development": {
-              "buildTarget": "zelin-technical-test-client:build:development",
-              "port": 4242
+              "buildTarget": "zelin-technical-test-client:build:development"
             }
           },
           "defaultConfiguration": "development"
