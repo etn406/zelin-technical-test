@@ -2,10 +2,14 @@
   "name": "zelin-technical-test-client",
   "version": "0.0.0",
   "scripts": {
+    "prewatch:local": "npm run build-env-json",
     "watch:local": "dotenv -e ../.env -- npm run _watch:local",
     "_watch:local": "ng serve --configuration development --port $CLIENT_PORT",
+    "prebuild:production": "npm run build-env-json",
     "build:production": "ng build --configuration production",
-    "test": "ng test"
+    "test": "ng test",
+    "build-env-json": "dotenv -e ../.env -- npm run _build-env-json",
+    "_build-env-json": "echo \"{\\\"SERVER_URL\\\":\\\"$SERVER_URL\\\",\\\"CLIENT_URL\\\":\\\"$CLIENT_URL\\\"}\" > .env.generated.json"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +25,7 @@
     "dotenv": "^16.4.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "zod": "^3.24.2",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
