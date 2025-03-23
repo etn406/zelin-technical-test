@@ -22,18 +22,24 @@ The Angular application isn't served by the Express server but by a separated ng
 
 The structure of our entities (books) is predictable, simple. There is no need for a NoSQL database, which is more optimized for large/rapidly-changing/unstructured data. So I went for a simple PostgreSQL database.
 
-## Features
+## Requested Features
 
 - [ ] I can see the list of my books. Each book has these properties : title, author, note, last modification date, ...
 - [ ] I can add a new book to the list
 - [ ] I can edit a book's properties
 - [ ] I can delete a book from the list
 
-### Optionnal features
+### Optionnal Features
 
 - [ ] Multi-user
 - [ ] Search feature
 - [ ] Responsive interface
+
+### Possible Enhancements
+
+Things I thought would be nice but I didn't take the time to do.
+
+- Share the entities definitions (class `Book`for example) between the client and the server. One source of truth would avoid possible desynchronization between bakend and frontend entities.
 
 ## Technical Choices
 
