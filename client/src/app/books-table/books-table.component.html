@@ -28,7 +28,9 @@
 
     <ng-container matColumnDef="note">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Note</th>
-      <td mat-cell *matCellDef="let row">{{ row.note }}</td>
+      <td mat-cell *matCellDef="let row">
+        <app-star-rating [value]="row.note"></app-star-rating>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

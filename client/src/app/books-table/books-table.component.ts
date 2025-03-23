@@ -19,12 +19,18 @@ import {
 import { GetBooksParams } from '../../entities/get-books-params.interface';
 import { GetBooksResponse } from '../../entities/get-books-response.interface';
 import { BookService } from '../../services/book.service';
+import { StarRatingComponent } from '../star-rating/star-rating.component';
 
 @Component({
   selector: 'app-books-table',
   templateUrl: './books-table.component.html',
   styleUrl: './books-table.component.scss',
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    StarRatingComponent,
+  ],
 })
 export class BooksTableComponent implements AfterViewInit {
   private snackBar = inject(MatSnackBar);
