@@ -16,6 +16,7 @@ import {
   BOOK_TABLE_DEFAULT_SORT_COLUMN,
   BOOK_TABLE_DEFAULT_SORT_DIRECTION,
 } from '../../consts';
+import { GetBooksParams } from '../../entities/get-books-params.interface';
 import { GetBooksResponse } from '../../entities/get-books-response.interface';
 import { BookService } from '../../services/book.service';
 
@@ -44,12 +45,7 @@ export class BooksTableComponent implements AfterViewInit {
         switchMap(() => {
           this.isLoadingResults = true;
           return this.bookService
-            .getBooks(
-              this.paginator?.pageIndex ?? 0,
-              this.paginator?.pageSize ?? BOOK_TABLE_DEFAULT_PAGE_SIZE,
-              this.sort?.active ?? BOOK_TABLE_DEFAULT_SORT_COLUMN,
-              this.sort?.direction ?? BOOK_TABLE_DEFAULT_SORT_DIRECTION
-            )
+            .getBooks(this.getBooksParams())
             .pipe(catchError(() => observableOf(null)));
         }),
         map((data): GetBooksResponse => {
@@ -65,5 +61,14 @@ export class BooksTableComponent implements AfterViewInit {
       .subscribe((data) => {
         this.data = data;
       });
+  }
+
+  private getBooksParams(): GetBooksParams {
+    return {
+      pageIndex: this.paginator?.pageIndex ?? 0,
+      pageSize: this.paginator?.pageSize ?? BOOK_TABLE_DEFAULT_PAGE_SIZE,
+      sortColumn: this.sort?.active ?? BOOK_TABLE_DEFAULT_SORT_COLUMN,
+      sortDirection: this.sort?.direction || BOOK_TABLE_DEFAULT_SORT_DIRECTION,
+    };
   }
 }

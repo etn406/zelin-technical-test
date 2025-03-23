@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { SortDirection } from '@angular/material/sort';
 import { map, Observable } from 'rxjs';
-import { Book } from '../entities/book.interface';
+import { GetBooksParams } from '../entities/get-books-params.interface';
+import { GetBooksResponse } from '../entities/get-books-response.interface';
 import { GetBooksResponseSchema } from '../entities/get-books-response.schema';
 import { environment } from '../environment';
 
@@ -12,30 +12,20 @@ import { environment } from '../environment';
 export class BookService {
   protected httpClient = inject(HttpClient);
 
-  public getBooks(
-    pageIndex: number,
-    pageSize: number,
-    sortColumn: string,
-    sortDirection: SortDirection
-  ): Observable<{ books: Book[]; total: number }> {
+  public getBooks(params: GetBooksParams): Observable<GetBooksResponse> {
     return this.httpClient
-      .get(this.getBooksURL(pageIndex, pageSize, sortColumn, sortDirection))
+      .get(this.getBooksURL(params).toString())
       .pipe(map((res: Object) => GetBooksResponseSchema.parse(res)));
   }
 
-  private getBooksURL(
-    pageIndex: number,
-    pageSize: number,
-    sortColumn: string,
-    sortDirection: SortDirection
-  ): string {
+  private getBooksURL(params: GetBooksParams): URL {
     const url = new URL('books', environment.serverURL);
 
-    url.searchParams.set('pageIndex', pageIndex.toString());
-    url.searchParams.set('pageSize', pageSize.toString());
-    url.searchParams.set('sortColumn', sortColumn);
-    url.searchParams.set('sortDirection', sortDirection);
+    url.searchParams.set('pageIndex', params.pageIndex.toString());
+    url.searchParams.set('pageSize', params.pageSize.toString());
+    url.searchParams.set('sortColumn', params.sortColumn);
+    url.searchParams.set('sortDirection', params.sortDirection);
 
-    return url.toString();
+    return url;
   }
 }
