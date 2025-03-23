@@ -9,7 +9,7 @@
     "watch:local": "concurrently --names tsc,node \"npm run watch:local:build\" \"npm run watch:local:serve\"",
     "watch:local:build": "tsc --project tsconfig.dev.json --watch --preserveWatchOutput",
     "watch:local:serve": "node --inspect=0.0.0.0:9229 --env-file=../.env --watch-path=dist --watch-preserve-output dist/server.js",
-    "db:explore": "tsc && node --env-file=../.env node_modules/.bin/drizzle-kit studio"
+    "drizzle-kit": "tsc && node --env-file=../.env node_modules/.bin/drizzle-kit --config=drizzle.config.js"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

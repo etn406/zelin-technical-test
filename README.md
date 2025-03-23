@@ -86,11 +86,18 @@ Start only the database service with:
 docker compose up db
 ```
 
-Start a local database exploration tool (Drizzle Studio) with:
+Apply the migrations to the database with:
 
 ```sh
 $ cd server
-$ npm run db:explore
+$ npm run drizzle-kit -- migrate
+```
+
+You can start Drizzle Studio to explore the local database with:
+
+```sh
+$ cd server
+$ npm run drizzle-kit -- studio
 ```
 
 #### Server
