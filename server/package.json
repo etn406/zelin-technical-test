@@ -5,10 +5,7 @@
   "scripts": {
     "start:production": "node dist/server.js",
     "build:production": "tsc",
-    "prewatch:local": "tsc --project tsconfig.dev.json",
-    "watch:local": "concurrently --names tsc,node \"npm run watch:local:build\" \"npm run watch:local:serve\"",
-    "watch:local:build": "tsc --project tsconfig.dev.json --watch --preserveWatchOutput",
-    "watch:local:serve": "node --inspect=0.0.0.0:9229 --env-file=../.env --watch-path=dist --watch-preserve-output dist/server.js",
+    "watch:local": "tsx --enable-source-maps --inspect=0.0.0.0:9229 --env-file=../.env --watch-preserve-output src/server.ts",
     "drizzle-kit": "tsc && node --env-file=../.env node_modules/.bin/drizzle-kit --config=drizzle.config.js"
   },
   "dependencies": {
