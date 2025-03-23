@@ -1,15 +1,15 @@
-import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  isDevMode,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import {
-  catchError,
-  map,
-  merge,
-  of as observableOf,
-  startWith,
-  switchMap,
-} from 'rxjs';
+import { catchError, map, merge, of, startWith, switchMap } from 'rxjs';
 import {
   BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS,
   BOOK_TABLE_DEFAULT_PAGE_SIZE,
@@ -27,6 +27,7 @@ import { BookService } from '../../services/book.service';
   imports: [MatTableModule, MatPaginatorModule, MatSortModule],
 })
 export class BooksTableComponent implements AfterViewInit {
+  private snackBar = inject(MatSnackBar);
   private bookService = inject(BookService);
   public data: GetBooksResponse = { books: [], total: 0 };
 
@@ -44,17 +45,27 @@ export class BooksTableComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.bookService
-            .getBooks(this.getBooksParams())
-            .pipe(catchError(() => observableOf(null)));
+          return this.bookService.getBooks(this.getBooksParams());
+        }),
+        catchError((error) => {
+          console.error(error);
+
+          if (error.name === 'HttpErrorResponse') {
+            this.showErrorSnackbar(
+              `An error occurred when requesting the books, the server may be not reacheable!`,
+              isDevMode() ? `${error.message}` : ''
+            );
+          } else if (error.name === 'ZodError') {
+            this.showErrorSnackbar(
+              `An error occurred when parsing the response!`,
+              isDevMode() ? `${error.message}` : ''
+            );
+          }
+
+          return of({ books: [], total: 0 });
         }),
         map((data): GetBooksResponse => {
           this.isLoadingResults = false;
-
-          if (!data) {
-            return { books: [], total: 0 };
-          }
-
           return data;
         })
       )
@@ -70,5 +81,9 @@ export class BooksTableComponent implements AfterViewInit {
       sortColumn: this.sort?.active ?? BOOK_TABLE_DEFAULT_SORT_COLUMN,
       sortDirection: this.sort?.direction || BOOK_TABLE_DEFAULT_SORT_DIRECTION,
     };
+  }
+
+  private showErrorSnackbar(...messages: string[]): void {
+    this.snackBar.open(messages.join('\n'), 'OK');
   }
 }

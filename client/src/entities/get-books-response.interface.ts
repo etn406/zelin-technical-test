@@ -1,4 +1,4 @@
-import { Book } from './book.interface';
+import { Book } from './book.schema';
 
 export interface GetBooksResponse {
   books: Book[];
