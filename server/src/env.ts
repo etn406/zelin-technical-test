@@ -1,6 +1,8 @@
 // This file is used to verify & format the environment variables that are used in the application.
 // It will throw an Error if any of the required environment variables are not correctly defined.
 
+import { z } from "zod";
+
 if (
   process.env.NODE_ENV !== "development" &&
   process.env.NODE_ENV !== "production"
@@ -36,6 +38,11 @@ if (!process.env.DB_NAME) {
 
 export const NODE_ENV: "development" | "production" = process.env.NODE_ENV;
 export const SERVER_PORT: number = parseInt(process.env.SERVER_PORT, 10);
+
+export const CLIENT_URL: string = z
+  .string()
+  .url()
+  .parse(process.env.CLIENT_URL);
 
 export const DB_HOST: string = process.env.DB_HOST;
 export const DB_PORT: number = parseInt(process.env.DB_PORT, 10);

@@ -12,6 +12,7 @@
     "drizzle-kit": "tsc && node --env-file=../.env node_modules/.bin/drizzle-kit --config=drizzle.config.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.41.0",
     "drizzle-zod": "^0.7.0",
@@ -22,6 +23,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/node": "^22.13.11",
     "@types/pg": "^8.11.11",
