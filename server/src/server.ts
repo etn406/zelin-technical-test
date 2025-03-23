@@ -20,14 +20,6 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(
-  OpenApiValidator.middleware({
-    apiSpec: "./openapi.yaml",
-    validateRequests: true,
-    validateResponses: true,
-  })
-);
-
 app.listen(SERVER_PORT, () => {
   console.log(`App is listening on port ${SERVER_PORT}`);
 });
