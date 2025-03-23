@@ -86,6 +86,13 @@ Start only the database service with:
 docker compose up db
 ```
 
+Start a local database exploration tool (Drizzle Studio) with:
+
+```sh
+$ cd server
+$ npm run db:explore
+```
+
 #### Server
 
 To automatically start the TypeScript compiler in watch mode, and concurrently the Express server in watch mode, with the Node Inspector debugging tools:

@@ -8,18 +8,26 @@
     "prewatch:local": "tsc --project tsconfig.dev.json",
     "watch:local": "concurrently --names tsc,node \"npm run watch:local:build\" \"npm run watch:local:serve\"",
     "watch:local:build": "tsc --project tsconfig.dev.json --watch --preserveWatchOutput",
-    "watch:local:serve": "node --inspect=0.0.0.0:9229 --env-file=../.env --watch-path=dist --watch-preserve-output dist/server.js"
+    "watch:local:serve": "node --inspect=0.0.0.0:9229 --env-file=../.env --watch-path=dist --watch-preserve-output dist/server.js",
+    "db:explore": "tsc && node --env-file=../.env node_modules/.bin/drizzle-kit studio"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.41.0",
+    "drizzle-zod": "^0.7.0",
     "express": "^5.0.1",
     "express-openapi-validator": "^5.4.6",
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.21",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
-    "concurrently": "^9.1.2"
+    "@types/node": "^22.13.11",
+    "@types/pg": "^8.11.11",
+    "concurrently": "^9.1.2",
+    "drizzle-kit": "^0.30.5",
+    "tsx": "^4.19.3"
   }
 }
