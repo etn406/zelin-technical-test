@@ -5,10 +5,10 @@
   "scripts": {
     "start:production": "node dist/server.js",
     "build:production": "tsc",
-    "prewatch": "tsc --project tsconfig.dev.json",
-    "watch": "concurrently --names tsc,node \"npm run watch:build\" \"npm run watch:serve\"",
-    "watch:build": "tsc --project tsconfig.dev.json --watch --preserveWatchOutput",
-    "watch:serve": "node --inspect=0.0.0.0:9229 --env-file=../.env --watch-path=dist --watch-preserve-output dist/server.js"
+    "prewatch:local": "tsc --project tsconfig.dev.json",
+    "watch:local": "concurrently --names tsc,node \"npm run watch:local:build\" \"npm run watch:local:serve\"",
+    "watch:local:build": "tsc --project tsconfig.dev.json --watch --preserveWatchOutput",
+    "watch:local:serve": "node --inspect=0.0.0.0:9229 --env-file=../.env --watch-path=dist --watch-preserve-output dist/server.js"
   },
   "dependencies": {
     "express": "^5.0.1",

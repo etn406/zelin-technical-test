@@ -22,6 +22,10 @@ The Angular application isn't served by the Express server but by a separated ng
 
 The structure of our entities (books) is predictable, simple. There is no need for a NoSQL database, which is more optimized for large/rapidly-changing/unstructured data. So I went for a simple PostgreSQL database.
 
+#### Drizzle ORM
+
+I chose [Drizzle ORM](https://orm.drizzle.team/docs/overview) especially for its proximity with SQL queries syntax, its integration with Zod (schema validation) and integrated database exploration tool _Drizzle Studio_.
+
 ## Requested Features
 
 - [ ] I can see the list of my books. Each book has these properties : title, author, note, last modification date, ...
@@ -33,7 +37,7 @@ The structure of our entities (books) is predictable, simple. There is no need f
 
 - [ ] Multi-user
 - [ ] Search feature
-- [ ] Responsive interface
+- [x] Responsive interface
 
 ### Possible Enhancements
 
@@ -88,7 +92,7 @@ To automatically start the TypeScript compiler in watch mode, and concurrently t
 
 ```sh
 $ cd server
-$ npm run watch
+$ npm run watch:local
 ```
 
 #### Client
