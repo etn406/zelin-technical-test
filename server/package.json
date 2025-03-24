@@ -5,7 +5,7 @@
   "scripts": {
     "start:production": "node dist/server.js",
     "build:production": "tsc",
-    "watch:local": "tsx --enable-source-maps --inspect=0.0.0.0:9229 --env-file=../.env --watch-preserve-output src/server.ts",
+    "watch:local": "tsx --enable-source-maps --inspect=0.0.0.0:9229 --env-file=../.env --watch --watch-preserve-output src/server.ts",
     "drizzle-kit": "tsc && node --env-file=../.env node_modules/.bin/drizzle-kit --config=drizzle.config.js"
   },
   "dependencies": {
