@@ -5,7 +5,7 @@ import { Book, BookSchema } from '../entities/book.schema';
 import { GetBooksParams } from '../entities/get-books-params.interface';
 import { GetBooksResponse } from '../entities/get-books-response.interface';
 import { GetBooksResponseSchema } from '../entities/get-books-response.schema';
-import { UpdateBookSchema } from '../entities/update-book.schema';
+import { InsertOrUpdateBookData } from '../entities/insert-or-update-book.type';
 import { environment } from '../environment';
 
 @Injectable({
@@ -39,7 +39,10 @@ export class BookService {
   /**
    * Updates a book and returns it
    */
-  public updateBook(id: number, book: UpdateBookSchema): Observable<Book> {
+  public updateBook(
+    id: number,
+    book: InsertOrUpdateBookData
+  ): Observable<Book> {
     const url = new URL(`books/${id}`, environment.serverURL);
 
     return this.httpClient
