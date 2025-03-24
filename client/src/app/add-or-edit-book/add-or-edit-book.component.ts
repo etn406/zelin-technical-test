@@ -53,15 +53,16 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
   templateUrl: './add-or-edit-book.component.html',
   styleUrl: './add-or-edit-book.component.scss',
 })
-export class EditBookComponent {
+export class AddOrEditBookComponent {
   private readonly alertService = inject(AlertService);
   private readonly router = inject(Router);
   private readonly bookService = inject(BookService);
 
-  readonly book = model.required<Book>();
+  readonly book = model<Book>();
 
+  readonly doesExistInDB = computed(() => this.book()?.id !== undefined);
   readonly isLoading = signal(false);
-  readonly isDeleted = computed(() => this.book().deleted);
+  readonly isDeleted = computed(() => this.book()?.deleted ?? false);
   readonly isFormDisabled = computed(
     () => this.isLoading() || this.isDeleted()
   );
@@ -87,7 +88,7 @@ export class EditBookComponent {
   readonly isbn = new FormControl('', {
     validators: [Validators.maxLength(20)],
   });
-  
+
   readonly rating = new FormControl(0);
 
   readonly form = new FormGroup({
@@ -112,10 +113,86 @@ export class EditBookComponent {
   }
 
   onSubmit(): void {
+    const book = this.book();
+
+    if (book?.id !== undefined) {
+      this.updateBook(book.id);
+    } else {
+      this.insertBook();
+    }
+  }
+
+  onClickOnReset(): void {
+    this.applyBookDataToFormFields();
+  }
+
+  onClickOnDelete(id: number): void {
+    this.isLoading.set(true);
+
+    // Resetting modified fields
+    this.applyBookDataToFormFields();
+
+    this.bookService.markBookAsDeleted(id).subscribe({
+      next: (book) => {
+        this.alertService.info('Book deleted successfully');
+        this.book.set(book);
+        this.applyBookDataToFormFields();
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.alertService.error("Book couldn't be deleted");
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  onClickOnRestore(id: number): void {
+    this.isLoading.set(true);
+    this.bookService.restoreDeletedBook(id).subscribe({
+      next: (book) => {
+        this.alertService.info('Book restored successfully');
+        this.book.set(book);
+        this.applyBookDataToFormFields();
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.alertService.error("Book couldn't be restored");
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  onClickOnDefinitelyDelete(id: number): void {
+    this.isLoading.set(true);
+
+    this.bookService.definitelyDeleteBook(id).subscribe({
+      next: (book) => {
+        this.alertService.info('Book definitely deleted successfully');
+        this.isLoading.set(false);
+        this.router.navigate(['']);
+      },
+      error: () => {
+        this.alertService.error("Book couldn't be definitely deleted");
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  private applyBookDataToFormFields(): void {
+    const book = this.book();
+
+    this.title.setValue(book?.title ?? '');
+    this.author_name.setValue(book?.author_name ?? '');
+    this.isbn.setValue(book?.isbn ?? '');
+    this.rating.setValue(book?.note ?? 0);
+    this.form.markAsPristine();
+  }
+
+  private updateBook(id: number): void {
     this.isLoading.set(true);
 
     this.bookService
-      .updateBook(this.book().id, {
+      .updateBook(id, {
         title: this.title.value,
         author_name: this.author_name.value,
         isbn: this.isbn.value,
@@ -135,67 +212,27 @@ export class EditBookComponent {
       });
   }
 
-  onClickOnReset(): void {
-    this.applyBookDataToFormFields();
-  }
-
-  onClickOnDelete(): void {
+  private insertBook(): void {
     this.isLoading.set(true);
 
-    // Resetting modified fields
-    this.applyBookDataToFormFields();
-
-    this.bookService.markBookAsDeleted(this.book().id).subscribe({
-      next: (book) => {
-        this.alertService.info('Book deleted successfully');
-        this.book.set(book);
-        this.applyBookDataToFormFields();
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.alertService.error("Book couldn't be deleted");
-        this.isLoading.set(false);
-      },
-    });
-  }
-
-  onClickOnRestore(): void {
-    this.isLoading.set(true);
-    this.bookService.restoreDeletedBook(this.book().id).subscribe({
-      next: (book) => {
-        this.alertService.info('Book restored successfully');
-        this.book.set(book);
-        this.applyBookDataToFormFields();
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.alertService.error("Book couldn't be restored");
-        this.isLoading.set(false);
-      },
-    });
-  }
-
-  onClickOnDefinitelyDelete(): void {
-    this.isLoading.set(true);
-
-    this.bookService.definitelyDeleteBook(this.book().id).subscribe({
-      next: (book) => {
-        this.alertService.info('Book definitely deleted successfully');
-        this.isLoading.set(false);
-        this.router.navigate(['']);
-      },
-      error: () => {
-        this.alertService.error("Book couldn't be definitely deleted");
-        this.isLoading.set(false);
-      },
-    });
-  }
-
-  private applyBookDataToFormFields(): void {
-    this.title.setValue(this.book().title);
-    this.author_name.setValue(this.book().author_name);
-    this.isbn.setValue(this.book().isbn);
-    this.rating.setValue(this.book().note);
-    this.form.markAsPristine();
+    // this.bookService
+    //   .insertBook({
+    //     title: this.title.value,
+    //     author_name: this.author_name.value,
+    //     isbn: this.isbn.value,
+    //     note: this.rating.value,
+    //   })
+    //   .subscribe({
+    //     next: (book) => {
+    //       this.book.set(book);
+    //       this.applyBookDataToFormFields();
+    //       this.alertService.info('Changes saved successfully');
+    //       this.isLoading.set(false);
+    //     },
+    //     error: () => {
+    //       this.alertService.error("Changes couldn't be saved");
+    //       this.isLoading.set(false);
+    //     },
+    //   });
   }
 }

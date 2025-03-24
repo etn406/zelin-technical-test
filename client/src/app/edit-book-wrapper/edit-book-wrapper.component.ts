@@ -2,11 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '../../entities/book.schema';
-import { EditBookComponent } from '../edit-book/edit-book.component';
+import { AddOrEditBookComponent } from '../add-or-edit-book/add-or-edit-book.component';
 
 @Component({
   selector: 'app-edit-book-wrapper',
-  imports: [EditBookComponent, MatProgressSpinnerModule],
+  imports: [AddOrEditBookComponent, MatProgressSpinnerModule],
   templateUrl: './edit-book-wrapper.component.html',
   styleUrl: './edit-book-wrapper.component.scss',
 })

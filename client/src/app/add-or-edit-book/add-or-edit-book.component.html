@@ -5,8 +5,12 @@
       <mat-chip class="deleted" disabled="disabled"> Deleted </mat-chip>
       } @else {
       <mat-icon>menu_book</mat-icon>
+      } @if (doesExistInDB()) {
+      <h2>{{ book()!.title }}</h2>
+      } @else {
+      <h2>Add a new book</h2>
       }
-      <h2>{{ book().title }}</h2>
+
       <mat-spinner diameter="30" [ariaHidden]="!isLoading()"></mat-spinner>
     </mat-card-title>
 
@@ -68,10 +72,10 @@
         <button
           mat-flat-button
           type="submit"
-          [disabled]="form.pristine || form.disabled"
+          [disabled]="form.pristine || form.disabled || form.invalid"
         >
           <mat-icon>save</mat-icon>
-          Save changes
+          @if (doesExistInDB()) { Save changes } @else { Save this new book }
         </button>
         <button
           mat-icon-button
@@ -84,11 +88,12 @@
         </button>
       </div>
 
+      @if (doesExistInDB()) {
       <div class="right">
         <button
           mat-flat-button
           type="button"
-          (click)="onClickOnDefinitelyDelete()"
+          (click)="onClickOnDefinitelyDelete(book()!.id)"
           [hidden]="!isDeleted()"
           [disabled]="!isDeleted() || isLoading()"
           class="warn"
@@ -101,7 +106,7 @@
           mat-stroked-button
           type="button"
           class="warn"
-          (click)="onClickOnDelete()"
+          (click)="onClickOnDelete(book()!.id)"
           [disabled]="isDeleted() || isLoading()"
         >
           <mat-icon>delete</mat-icon>
@@ -111,13 +116,14 @@
         <button
           mat-stroked-button
           type="button"
-          (click)="onClickOnRestore()"
+          (click)="onClickOnRestore(book()!.id)"
           [disabled]="!isDeleted() || isLoading()"
         >
           <mat-icon>restore</mat-icon>
           Restore
         </button>
       </div>
+      }
     </mat-card-actions>
   </mat-card>
 </form>
