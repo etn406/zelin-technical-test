@@ -78,13 +78,14 @@
           @if (doesExistInDB()) { Save changes } @else { Save this new book }
         </button>
         <button
-          mat-icon-button
+          mat-stroked-button
           type="button"
           [disabled]="form.pristine || form.disabled"
+          [hidden]="form.pristine || form.disabled"
           (click)="onClickOnReset()"
-          matTooltip="Cancel unsaved changes"
         >
           <mat-icon>cleaning_services</mat-icon>
+          Cancel
         </button>
       </div>
 
@@ -105,22 +106,22 @@
         <button
           mat-stroked-button
           type="button"
+          (click)="onClickOnRestore(book()!.id)"
+          [disabled]="!isDeleted() || isLoading()"
+        >
+          <mat-icon>restore</mat-icon>
+          Restore
+        </button>
+
+        <button
+          mat-stroked-button
+          type="button"
           class="warn"
           (click)="onClickOnDelete(book()!.id)"
           [disabled]="isDeleted() || isLoading()"
         >
           <mat-icon>delete</mat-icon>
           Delete
-        </button>
-
-        <button
-          mat-stroked-button
-          type="button"
-          (click)="onClickOnRestore(book()!.id)"
-          [disabled]="!isDeleted() || isLoading()"
-        >
-          <mat-icon>restore</mat-icon>
-          Restore
         </button>
       </div>
       }
