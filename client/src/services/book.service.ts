@@ -13,12 +13,19 @@ export class BookService {
   protected httpClient = inject(HttpClient);
 
   public getBooks(params: GetBooksParams): Observable<GetBooksResponse> {
+    const url = new URL('books', environment.serverURL);
+
+    url.searchParams.set('pageIndex', params.pageIndex.toString());
+    url.searchParams.set('pageSize', params.pageSize.toString());
+    url.searchParams.set('sortColumn', params.sortColumn);
+    url.searchParams.set('sortDirection', params.sortDirection);
+
     return this.httpClient
-      .get(this.getBooksURL(params).toString())
+      .get(url.toString())
       .pipe(map((res: Object) => GetBooksResponseSchema.parse(res)));
   }
 
-  private getBooksURL(params: GetBooksParams): URL {
+  private createGetBooksURL(params: GetBooksParams): URL {
     const url = new URL('books', environment.serverURL);
 
     url.searchParams.set('pageIndex', params.pageIndex.toString());
