@@ -21,6 +21,7 @@ import {
 import { Book } from '../../entities/book.schema';
 import { GetBooksParams } from '../../entities/get-books-params.interface';
 import { BookService } from '../../services/book.service';
+import { getHandsetSignal } from '../../utils/get-handset-signal';
 import { AlertService } from '../alert.service';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 
@@ -42,6 +43,7 @@ export class BooksTableComponent implements AfterViewInit {
   private readonly alertService = inject(AlertService);
   private readonly bookService = inject(BookService);
 
+  readonly isHandset = getHandsetSignal();
   readonly books = signal<Book[]>([]);
   readonly booksTotal = signal(0);
   readonly isLoadingResults = signal(false);

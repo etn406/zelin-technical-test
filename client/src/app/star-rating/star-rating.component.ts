@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  input,
   model,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
@@ -12,14 +13,6 @@ enum StarIcon {
   Empty = 'star_border',
 }
 
-function getIcon(value: number, n: number): StarIcon {
-  return value < n - 1
-    ? StarIcon.Empty
-    : value < n
-    ? StarIcon.Half
-    : StarIcon.Full;
-}
-
 @Component({
   selector: 'app-star-rating',
   imports: [MatIcon],
@@ -28,19 +21,27 @@ function getIcon(value: number, n: number): StarIcon {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StarRatingComponent {
-  /**
-   * Value of the rating
-   */
-  public value = model.required<number>();
+  readonly value = model.required<number>();
+  readonly small = input<boolean>(false);
 
-  public starsIcons = computed(() => {
-    const v = this.value();
-    return [
-      getIcon(v, 2),
-      getIcon(v, 4),
-      getIcon(v, 6),
-      getIcon(v, 8),
-      getIcon(v, 10),
-    ];
-  });
+  readonly correctedValue = computed(() =>
+    Math.max(0, Math.min(10, Math.round(this.value())))
+  );
+
+  // Internal rating value are between 0 and 10, but the user sees it between 0 and 5 (with half .5)
+  readonly humanizedValue = computed(() => this.correctedValue() / 2);
+
+  readonly star1 = computed<StarIcon>(() => this.getIcon(this.value(), 2));
+  readonly star2 = computed<StarIcon>(() => this.getIcon(this.value(), 4));
+  readonly star3 = computed<StarIcon>(() => this.getIcon(this.value(), 6));
+  readonly star4 = computed<StarIcon>(() => this.getIcon(this.value(), 8));
+  readonly star5 = computed<StarIcon>(() => this.getIcon(this.value(), 10));
+
+  private getIcon(value: number, n: number): StarIcon {
+    return value < n - 1
+      ? StarIcon.Empty
+      : value < n
+      ? StarIcon.Half
+      : StarIcon.Full;
+  }
 }

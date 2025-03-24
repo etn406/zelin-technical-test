@@ -1,3 +1,14 @@
-@for (icon of starsIcons(); track $index) {
-<mat-icon>{{ icon }}</mat-icon>
+@if (small()) {
+<div class="small">
+  <mat-icon inline="true">star</mat-icon>
+  <span>{{ humanizedValue() }}</span>
+</div>
+} @else {
+<div class="large">
+  <mat-icon>{{ star1() }}</mat-icon>
+  <mat-icon>{{ star2() }}</mat-icon>
+  <mat-icon>{{ star3() }}</mat-icon>
+  <mat-icon>{{ star4() }}</mat-icon>
+  <mat-icon>{{ star5() }}</mat-icon>
+</div>
 }

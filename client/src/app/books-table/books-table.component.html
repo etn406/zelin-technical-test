@@ -29,7 +29,10 @@
     <ng-container matColumnDef="note">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Note</th>
       <td mat-cell *matCellDef="let row">
-        <app-star-rating [value]="row.note"></app-star-rating>
+        <app-star-rating
+          [value]="row.note"
+          [small]="isHandset()"
+        ></app-star-rating>
       </td>
     </ng-container>
 
