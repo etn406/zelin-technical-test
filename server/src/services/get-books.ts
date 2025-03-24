@@ -1,25 +1,24 @@
-import { asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, like, sql, SQL } from "drizzle-orm";
 import type { z } from "zod";
 import { db } from "../db/index.js";
 import { Book, booksTable } from "../db/schema.js";
-import { BookColumnSchema } from "../entities/book-column.schema.js";
-import type { SortDirectionSchema } from "../entities/sort-direction.schema.js";
+import { GetBooksRequestParamsSchema } from "../entities/get-books-request-params.schema.js";
 
 /**
  * @returns Retrieve all books, except deleted ones.
  */
 export async function getBooks(
-  pageIndex: number,
-  pageSize: number,
-  sortColumn: z.infer<typeof BookColumnSchema>,
-  sortDirection: z.infer<typeof SortDirectionSchema>
+  params: z.infer<typeof GetBooksRequestParamsSchema>
 ): Promise<[Book[], number]> {
-  const total = await db.$count(booksTable, eq(booksTable.deleted, false));
+  const { pageSize, pageIndex, sortColumn, sortDirection } = params;
+
+  const conditions = createSQLConditionsFromGETParams(params);
+  const total = await db.$count(booksTable, and(...conditions));
 
   const books = await db
     .select()
     .from(booksTable)
-    .where(eq(booksTable.deleted, false))
+    .where(and(...conditions))
     .orderBy(
       sortDirection === "asc"
         ? asc(booksTable[sortColumn])
@@ -29,4 +28,28 @@ export async function getBooks(
     .offset(pageIndex * pageSize);
 
   return [books, total];
+}
+
+function createSQLConditionsFromGETParams(
+  params: z.infer<typeof GetBooksRequestParamsSchema>
+): SQL<unknown>[] {
+  const conditions: SQL<unknown>[] = [];
+
+  if (params.query !== undefined) {
+    conditions.push(like(booksTable.title, `%${params.query}%`));
+  }
+
+  if (params.noteAbove !== undefined) {
+    conditions.push(sql`${booksTable.note} > ${params.noteAbove}`);
+  }
+
+  if (params.noteBelow !== undefined) {
+    conditions.push(sql`${booksTable.note} < ${params.noteBelow}`);
+  }
+
+  if (params.deleted !== undefined) {
+    conditions.push(eq(booksTable.deleted, params.deleted));
+  }
+
+  return conditions;
 }

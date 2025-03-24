@@ -8,5 +8,4 @@ export const BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS = [
   'title',
   'author_name',
   'note',
-  'actions',
 ] as (keyof Book)[];

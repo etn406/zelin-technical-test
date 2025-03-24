@@ -3,4 +3,9 @@ export interface GetBooksParams {
   pageSize: number;
   sortColumn: string;
   sortDirection: 'asc' | 'desc';
+
+  query?: string;
+  noteAbove?: number;
+  noteBelow?: number;
+  deleted?: boolean;
 }

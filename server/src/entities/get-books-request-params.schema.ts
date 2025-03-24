@@ -7,4 +7,12 @@ export const GetBooksRequestParamsSchema = z.object({
   pageSize: z.coerce.number(),
   sortColumn: BookColumnSchema,
   sortDirection: SortDirectionSchema,
+
+  query: z.string().optional(),
+  noteAbove: z.coerce.number().optional(),
+  noteBelow: z.coerce.number().optional(),
+  deleted: z
+    .enum(["true", "false"])
+    .transform((value) => value === "true")
+    .optional(),
 });
