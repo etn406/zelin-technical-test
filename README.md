@@ -28,10 +28,10 @@ I chose [Drizzle ORM](https://orm.drizzle.team/docs/overview) especially for its
 
 ## Requested Features
 
-- [ ] I can see the list of my books. Each book has these properties : title, author, note, last modification date, ...
+- [x] I can see the list of my books. Each book has these properties : title, author, note, last modification date, ...
 - [ ] I can add a new book to the list
-- [ ] I can edit a book's properties
-- [ ] I can delete a book from the list
+- [x] I can edit a book's properties
+- [x] I can delete a book
 
 ### Optionnal Features
 

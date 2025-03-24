@@ -39,9 +39,7 @@ export class BookService {
   }
 
   /**
-   * Get a single Book
-   * @param id the id of the Book
-   * @returns the Book object
+   * Get a single book
    */
   public getBook(id: number): Observable<Book> {
     const url = new URL(`books/${id}`, environment.serverURL);
@@ -51,9 +49,7 @@ export class BookService {
   }
 
   /**
-   * Updates a single Book
-   * @param book a Book object with at least its id
-   * @returns the full Book object
+   * Updates a book and returns it
    */
   public updateBook(id: number, book: UpdateBookSchema): Observable<Book> {
     const url = new URL(`books/${id}`, environment.serverURL);
@@ -61,5 +57,30 @@ export class BookService {
     return this.httpClient
       .put(url.toString(), book)
       .pipe(map((res: Object) => BookSchema.parse(res)));
+  }
+
+  /**
+   * Mark a book as deleted.
+   */
+  public markBookAsDeleted(id: number): Observable<Book> {
+    return this.updateBook(id, { deleted: true });
+  }
+
+  /**
+   * Restore a book previously marked as deleted.
+   */
+  public restoreDeletedBook(id: number): Observable<Book> {
+    return this.updateBook(id, { deleted: false });
+  }
+
+  /**
+   * Definitely delete a book
+   */
+  public definitelyDeleteBook(id: number): Observable<null> {
+    const url = new URL(`books/${id}`, environment.serverURL);
+
+    return this.httpClient
+      .delete(url.toString())
+      .pipe(map((res: Object) => null));
   }
 }

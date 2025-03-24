@@ -1,11 +1,19 @@
+@use "@angular/material" as mat;
+
 mat-card {
   margin: 1rem;
 
   mat-card-title {
     margin: 1rem;
+    height: 2rem;
 
     display: flex;
     align-items: center;
+
+    h2 {
+      font-size: inherit;
+      margin: 0 1rem;
+    }
 
     mat-spinner {
       margin-left: 1rem;
@@ -17,13 +25,28 @@ mat-card {
   }
 
   mat-card-actions {
+    display: flex;
     padding: 1rem;
     padding-top: 0;
 
-    button[type="submit"] {
-      margin-right: 1rem;
+    justify-content: space-between;
+    align-items: center;
+
+    .left,
+    .right {
+      display: flex;
+      align-items: center;
+
+      & > *:not(:last-child) {
+        margin-right: 1rem;
+      }
     }
   }
+}
+
+form.deleted mat-card-title h2 {
+  text-decoration: line-through;
+  color: var(--mat-sys-on-surface-variant);
 }
 
 .line1 {

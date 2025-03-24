@@ -37,3 +37,25 @@ body {
     )
   );
 }
+
+:root [mat-stroked-button].warn {
+  @include mat.button-overrides(
+    (
+      outlined-outline-color: var(--mat-sys-error),
+      outlined-label-text-color: var(--mat-sys-error),
+      outlined-ripple-color: (
+        --mat-sys-error-container,
+      ),
+      outlined-state-layer-color: var(--mat-sys-error),
+    )
+  );
+}
+
+:root [mat-flat-button].warn {
+  @include mat.button-overrides(
+    (
+      filled-container-color: var(--mat-sys-error),
+      filled-label-text-color: var(--mat-sys-on-error),
+    )
+  );
+}

@@ -1,4 +1,11 @@
-import { Component, inject, model, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  model,
+  signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,12 +15,14 @@ import {
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 import { Book } from '../../entities/book.schema';
 import { BookService } from '../../services/book.service';
 import { AlertService } from '../alert.service';
@@ -38,17 +47,23 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
     StarRatingComponent,
     MatProgressSpinnerModule,
     MatBadgeModule,
+    MatChipsModule,
   ],
   templateUrl: './edit-book.component.html',
   styleUrl: './edit-book.component.scss',
 })
 export class EditBookComponent {
   private readonly alertService = inject(AlertService);
-  readonly bookService = inject(BookService);
+  private readonly router = inject(Router);
+  private readonly bookService = inject(BookService);
 
   readonly book = model.required<Book>();
 
   readonly isLoading = signal(false);
+  readonly isDeleted = computed(() => this.book().deleted);
+  readonly isFormDisabled = computed(
+    () => this.isLoading() || this.isDeleted()
+  );
 
   readonly title = new FormControl('', { nonNullable: true });
   readonly author_name = new FormControl('', { nonNullable: true });
@@ -62,12 +77,21 @@ export class EditBookComponent {
     rating: this.rating,
   });
 
+  constructor() {
+    effect(() => {
+      if ((this.isDeleted() || this.isLoading()) && !this.form.disabled) {
+        this.form.disable();
+      } else if (!this.isDeleted() && !this.isLoading() && this.form.disabled) {
+        this.form.enable();
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.applyBookDataToFormFields();
   }
 
   onSubmit(): void {
-    this.form.disable();
     this.isLoading.set(true);
 
     this.bookService
@@ -80,25 +104,71 @@ export class EditBookComponent {
       .subscribe({
         next: (book) => {
           this.book.set(book);
-          this.form.markAsPristine();
+          this.applyBookDataToFormFields();
           this.alertService.info('Changes saved successfully');
+          this.isLoading.set(false);
         },
         error: () => {
           this.alertService.error("Changes couldn't be saved");
-          this.form.enable();
-          this.isLoading.set(false);
-        },
-        complete: () => {
-          console.log('complete');
-          this.form.enable();
           this.isLoading.set(false);
         },
       });
   }
 
-  onReset(): void {
+  onClickOnReset(): void {
     this.applyBookDataToFormFields();
-    this.form.markAsPristine();
+  }
+
+  onClickOnDelete(): void {
+    this.isLoading.set(true);
+
+    // Resetting modified fields
+    this.applyBookDataToFormFields();
+
+    this.bookService.markBookAsDeleted(this.book().id).subscribe({
+      next: (book) => {
+        this.alertService.info('Book deleted successfully');
+        this.book.set(book);
+        this.applyBookDataToFormFields();
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.alertService.error("Book couldn't be deleted");
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  onClickOnRestore(): void {
+    this.isLoading.set(true);
+    this.bookService.restoreDeletedBook(this.book().id).subscribe({
+      next: (book) => {
+        this.alertService.info('Book restored successfully');
+        this.book.set(book);
+        this.applyBookDataToFormFields();
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.alertService.error("Book couldn't be restored");
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  onClickOnDefinitelyDelete(): void {
+    this.isLoading.set(true);
+
+    this.bookService.definitelyDeleteBook(this.book().id).subscribe({
+      next: (book) => {
+        this.alertService.info('Book definitely deleted successfully');
+        this.isLoading.set(false);
+        this.router.navigate(['']);
+      },
+      error: () => {
+        this.alertService.error("Book couldn't be definitely deleted");
+        this.isLoading.set(false);
+      },
+    });
   }
 
   private applyBookDataToFormFields(): void {
@@ -106,5 +176,6 @@ export class EditBookComponent {
     this.author_name.setValue(this.book().author_name);
     this.isbn.setValue(this.book().isbn);
     this.rating.setValue(this.book().note);
+    this.form.markAsPristine();
   }
 }
