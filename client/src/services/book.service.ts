@@ -27,17 +27,6 @@ export class BookService {
       .pipe(map((res: Object) => GetBooksResponseSchema.parse(res)));
   }
 
-  private createGetBooksURL(params: GetBooksParams): URL {
-    const url = new URL('books', environment.serverURL);
-
-    url.searchParams.set('pageIndex', params.pageIndex.toString());
-    url.searchParams.set('pageSize', params.pageSize.toString());
-    url.searchParams.set('sortColumn', params.sortColumn);
-    url.searchParams.set('sortDirection', params.sortDirection);
-
-    return url;
-  }
-
   /**
    * Get a single book
    */
