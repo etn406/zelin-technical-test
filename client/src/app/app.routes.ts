@@ -5,8 +5,9 @@ import { EditBookWrapperComponent } from './edit-book-wrapper/edit-book-wrapper.
 
 export const routes: Routes = [
   { path: 'books', component: BooksTableComponent },
+
   {
-    path: 'books/:id/edit',
+    path: 'books/:id',
     component: EditBookWrapperComponent,
     resolve: { book: bookResolver },
   },
