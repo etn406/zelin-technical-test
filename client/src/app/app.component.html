@@ -3,9 +3,9 @@
     #drawer
     class="sidenav"
     fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
+    [attr.role]="isHandset() ? 'dialog' : 'navigation'"
+    [mode]="isHandset() ? 'over' : 'side'"
+    [opened]="isHandset() === false"
   >
     <mat-nav-list>
       <h3 matSubheader>Books</h3>
@@ -33,7 +33,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      @if (isHandset$ | async) {
+      @if (isHandset()) {
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -43,7 +43,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       }
-      <header [class.isHandset]="isHandset$ | async">
+      <header [class.isHandset]="isHandset()">
         <img src="logo.svg" alt="Books Logo" />
         <h1>Personnal Book Library</h1>
       </header>
