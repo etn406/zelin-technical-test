@@ -5,10 +5,13 @@ import {
   isDevMode,
   ViewChild,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
 import { catchError, map, merge, of, startWith, switchMap } from 'rxjs';
 import {
   BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS,
@@ -30,6 +33,9 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
     MatPaginatorModule,
     MatSortModule,
     StarRatingComponent,
+    MatIconModule,
+    MatButtonModule,
+    RouterLink,
   ],
 })
 export class BooksTableComponent implements AfterViewInit {
@@ -91,5 +97,9 @@ export class BooksTableComponent implements AfterViewInit {
 
   private showErrorSnackbar(...messages: string[]): void {
     this.snackBar.open(messages.join('\n'), 'OK');
+  }
+
+  public getRouterLinkToBookEdit(id: number): string {
+    return `/books/${id}/edit`;
   }
 }
