@@ -11,6 +11,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -65,9 +66,28 @@ export class EditBookComponent {
     () => this.isLoading() || this.isDeleted()
   );
 
-  readonly title = new FormControl('', { nonNullable: true });
-  readonly author_name = new FormControl('', { nonNullable: true });
-  readonly isbn = new FormControl('');
+  readonly title = new FormControl('', {
+    nonNullable: true,
+    validators: [
+      Validators.minLength(1),
+      Validators.maxLength(255),
+      Validators.required,
+    ],
+  });
+
+  readonly author_name = new FormControl('', {
+    nonNullable: true,
+    validators: [
+      Validators.minLength(1),
+      Validators.maxLength(255),
+      Validators.required,
+    ],
+  });
+
+  readonly isbn = new FormControl('', {
+    validators: [Validators.maxLength(20)],
+  });
+  
   readonly rating = new FormControl(0);
 
   readonly form = new FormGroup({
