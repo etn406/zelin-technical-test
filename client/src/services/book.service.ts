@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { Book, BookSchema } from '../entities/book.schema';
 import { GetBooksParams } from '../entities/get-books-params.interface';
 import { GetBooksResponse } from '../entities/get-books-response.interface';
 import { GetBooksResponseSchema } from '../entities/get-books-response.schema';
+import { UpdateBookSchema } from '../entities/update-book.schema';
 import { environment } from '../environment';
 
 @Injectable({
@@ -45,6 +47,19 @@ export class BookService {
     const url = new URL(`books/${id}`, environment.serverURL);
     return this.httpClient
       .get(url.toString())
+      .pipe(map((res: Object) => BookSchema.parse(res)));
+  }
+
+  /**
+   * Updates a single Book
+   * @param book a Book object with at least its id
+   * @returns the full Book object
+   */
+  public updateBook(id: number, book: UpdateBookSchema): Observable<Book> {
+    const url = new URL(`books/${id}`, environment.serverURL);
+
+    return this.httpClient
+      .put(url.toString(), book)
       .pipe(map((res: Object) => BookSchema.parse(res)));
   }
 }
