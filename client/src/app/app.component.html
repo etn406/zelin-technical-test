@@ -10,17 +10,22 @@
     <mat-nav-list>
       <h3 matSubheader>Books</h3>
 
-      <a mat-list-item href="/books">
+      <a
+        mat-list-item
+        routerLink="/books"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
         <mat-icon matListItemIcon>view_list</mat-icon>
         All Books
       </a>
 
-      <a mat-list-item href="/books?filter=lent">
-        <mat-icon matListItemIcon>group</mat-icon>
-        Lent Books
-      </a>
-
-      <a mat-list-item href="/add-book">
+      <a
+        mat-list-item
+        routerLink="/add-book"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
         <mat-icon matListItemIcon>add</mat-icon>
         Add a book
       </a>
@@ -40,7 +45,7 @@
       }
       <header [class.isHandset]="isHandset$ | async">
         <img src="logo.svg" alt="Books Logo" />
-        <h1>My Personnal Library</h1>
+        <h1>Personnal Book Library</h1>
       </header>
     </mat-toolbar>
 

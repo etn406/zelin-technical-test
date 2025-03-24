@@ -10,4 +10,6 @@ export const routes: Routes = [
     component: EditBookWrapperComponent,
     resolve: { book: bookResolver },
   },
+
+  { path: '', redirectTo: 'books', pathMatch: 'full' },
 ];
