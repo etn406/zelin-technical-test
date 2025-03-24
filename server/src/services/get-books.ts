@@ -30,23 +30,3 @@ export async function getBooks(
 
   return [books, total];
 }
-
-/**
- * Insert a new book in the database, returns its id.
- */
-// export async function insertNewBook(
-//   partialBook: z.infer<BookInsertSchema>
-// ): Promise<Pick<Book, "id">> {
-//   const result = await dataSource
-//     .createQueryBuilder()
-//     .insert()
-//     .into(Book)
-//     .values({
-//       title,
-//       isbn,
-//       deleted: false,
-//     })
-//     .execute();
-
-//   return result.identifiers[0] as Pick<Book, "id">;
-// }
