@@ -35,4 +35,16 @@ export class BookService {
 
     return url;
   }
+
+  /**
+   * Get a single Book
+   * @param id the id of the Book
+   * @returns the Book object
+   */
+  public getBook(id: number): Observable<Book> {
+    const url = new URL(`books/${id}`, environment.serverURL);
+    return this.httpClient
+      .get(url.toString())
+      .pipe(map((res: Object) => BookSchema.parse(res)));
+  }
 }
