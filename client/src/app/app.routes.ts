@@ -1,14 +1,20 @@
 import { Routes } from '@angular/router';
+import { AddOrEditBookComponent } from './add-or-edit-book/add-or-edit-book.component';
 import { bookResolver } from './book.resolver';
 import { BooksTableComponent } from './books-table/books-table.component';
-import { EditBookWrapperComponent } from './edit-book-wrapper/edit-book-wrapper.component';
 
 export const routes: Routes = [
   { path: 'books', component: BooksTableComponent },
 
   {
+    path: 'books/add',
+    component: AddOrEditBookComponent,
+    resolve: {},
+  },
+
+  {
     path: 'books/:id',
-    component: EditBookWrapperComponent,
+    component: AddOrEditBookComponent,
     resolve: { book: bookResolver },
   },
 

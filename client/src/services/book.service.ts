@@ -37,6 +37,17 @@ export class BookService {
   }
 
   /**
+   * Creates a new book and returns it
+   */
+  public insertBook(book: InsertOrUpdateBookData): Observable<Book> {
+    const url = new URL(`books`, environment.serverURL);
+
+    return this.httpClient
+      .post(url.toString(), book)
+      .pipe(map((res: Object) => BookSchema.parse(res)));
+  }
+
+  /**
    * Updates a book and returns it
    */
   public updateBook(

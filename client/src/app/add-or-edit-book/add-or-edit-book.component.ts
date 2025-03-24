@@ -25,6 +25,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { Book } from '../../entities/book.schema';
+import { InsertOrUpdateBookData } from '../../entities/insert-or-update-book.type';
 import { BookService } from '../../services/book.service';
 import { AlertService } from '../alert.service';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
@@ -188,51 +189,47 @@ export class AddOrEditBookComponent {
     this.form.markAsPristine();
   }
 
+  private getFormFieldsAsBookData(): InsertOrUpdateBookData {
+    return {
+      title: this.title.value,
+      author_name: this.author_name.value,
+      isbn: this.isbn.value,
+      note: this.rating.value,
+    };
+  }
+
   private updateBook(id: number): void {
     this.isLoading.set(true);
 
-    this.bookService
-      .updateBook(id, {
-        title: this.title.value,
-        author_name: this.author_name.value,
-        isbn: this.isbn.value,
-        note: this.rating.value,
-      })
-      .subscribe({
-        next: (book) => {
-          this.book.set(book);
-          this.applyBookDataToFormFields();
-          this.alertService.info('Changes saved successfully');
-          this.isLoading.set(false);
-        },
-        error: () => {
-          this.alertService.error("Changes couldn't be saved");
-          this.isLoading.set(false);
-        },
-      });
+    this.bookService.updateBook(id, this.getFormFieldsAsBookData()).subscribe({
+      next: (book: Book) => {
+        this.book.set(book);
+        this.applyBookDataToFormFields();
+        this.alertService.info('Changes saved successfully');
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.alertService.error("Changes couldn't be saved");
+        this.isLoading.set(false);
+      },
+    });
   }
 
   private insertBook(): void {
     this.isLoading.set(true);
 
-    // this.bookService
-    //   .insertBook({
-    //     title: this.title.value,
-    //     author_name: this.author_name.value,
-    //     isbn: this.isbn.value,
-    //     note: this.rating.value,
-    //   })
-    //   .subscribe({
-    //     next: (book) => {
-    //       this.book.set(book);
-    //       this.applyBookDataToFormFields();
-    //       this.alertService.info('Changes saved successfully');
-    //       this.isLoading.set(false);
-    //     },
-    //     error: () => {
-    //       this.alertService.error("Changes couldn't be saved");
-    //       this.isLoading.set(false);
-    //     },
-    //   });
+    this.bookService.insertBook(this.getFormFieldsAsBookData()).subscribe({
+      next: (book: Book) => {
+        this.book.set(book);
+        this.applyBookDataToFormFields();
+        this.alertService.info('The new book has been saved successfully');
+        this.isLoading.set(false);
+        this.router.navigate(['/books', book.id]);
+      },
+      error: () => {
+        this.alertService.error("The new book couldn't be saved");
+        this.isLoading.set(false);
+      },
+    });
   }
 }
