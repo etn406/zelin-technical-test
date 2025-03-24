@@ -17,10 +17,9 @@ export class BookService {
   public getBooks(params: GetBooksParams): Observable<GetBooksResponse> {
     const url = new URL('books', environment.serverURL);
 
-    url.searchParams.set('pageIndex', params.pageIndex.toString());
-    url.searchParams.set('pageSize', params.pageSize.toString());
-    url.searchParams.set('sortColumn', params.sortColumn);
-    url.searchParams.set('sortDirection', params.sortDirection);
+    for (const [key, value] of Object.entries(params)) {
+      url.searchParams.set(key, `${value}`);
+    }
 
     return this.httpClient
       .get(url.toString())
