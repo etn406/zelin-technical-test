@@ -1,0 +1,81 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-title>
+      <em>{{ book().title }}</em>
+      <mat-spinner diameter="30" [ariaHidden]="!isLoading()"></mat-spinner>
+    </mat-card-title>
+
+    <mat-card-content>
+      <div class="line1">
+        <mat-form-field
+          matBadge="1"
+          matBadgeSize="small"
+          [matBadgeHidden]="!title.dirty"
+        >
+          <mat-label>Title</mat-label>
+          <input matInput id="title" type="text" [formControl]="title" />
+        </mat-form-field>
+
+        <mat-form-field
+          matBadge="1"
+          matBadgeSize="small"
+          [matBadgeHidden]="!author_name.dirty"
+        >
+          <mat-label>Author</mat-label>
+          <input
+            matInput
+            id="author_name"
+            type="text"
+            [formControl]="author_name"
+          />
+        </mat-form-field>
+
+        <mat-form-field
+          matBadge="1"
+          matBadgeSize="small"
+          [matBadgeHidden]="!isbn.dirty"
+        >
+          <mat-label>ISBN</mat-label>
+          <input
+            matInput
+            id="isbn"
+            type="text"
+            [formControl]="isbn"
+            placeholder="XXX-X-XXXX-XXXX-X"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-slider min="0" max="10" step="1" showTickMarks>
+          <input matSliderThumb [formControl]="rating" />
+        </mat-slider>
+        <app-star-rating
+          [value]="rating.value ?? 0"
+          matBadge="1"
+          matBadgeSize="small"
+          [matBadgeHidden]="!rating.dirty"
+        ></app-star-rating>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-flat-button
+        type="submit"
+        [disabled]="form.pristine || form.disabled"
+      >
+        <mat-icon>save</mat-icon>
+        Save changes
+      </button>
+      <button
+        mat-icon-button
+        type="button"
+        [disabled]="form.pristine || form.disabled"
+        (click)="onReset()"
+        matTooltip="Cancel changes"
+      >
+        <mat-icon>restore</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

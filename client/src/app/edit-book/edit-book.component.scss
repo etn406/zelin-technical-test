@@ -1,0 +1,37 @@
+mat-card {
+  margin: 1rem;
+
+  mat-card-title {
+    margin: 1rem;
+
+    display: flex;
+    align-items: center;
+
+    mat-spinner {
+      margin-left: 1rem;
+
+      &[aria-hidden="true"] {
+        visibility: hidden;
+      }
+    }
+  }
+
+  mat-card-actions {
+    padding: 1rem;
+    padding-top: 0;
+
+    button[type="submit"] {
+      margin-right: 1rem;
+    }
+  }
+}
+
+.line1 {
+  display: flex;
+  justify-content: space-between;
+
+  & > * {
+    flex: 1;
+    margin-right: 1rem;
+  }
+}

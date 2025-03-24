@@ -1,0 +1,5 @@
+@if (isLoading()) {
+<mat-spinner></mat-spinner>
+} @else {
+<app-edit-book [book]="book()!"></app-edit-book>
+}
