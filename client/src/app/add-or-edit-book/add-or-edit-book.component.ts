@@ -33,7 +33,7 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
  * or to create a new book if the input `[book]` is not provided.
  */
 @Component({
-  selector: 'app-edit-book',
+  selector: 'app-add-or-edit-book',
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -49,8 +49,8 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
     MatBadgeModule,
     MatChipsModule,
   ],
-  templateUrl: './edit-book.component.html',
-  styleUrl: './edit-book.component.scss',
+  templateUrl: './add-or-edit-book.component.html',
+  styleUrl: './add-or-edit-book.component.scss',
 })
 export class EditBookComponent {
   private readonly alertService = inject(AlertService);
