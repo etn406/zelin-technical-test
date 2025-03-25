@@ -14,3 +14,5 @@ export const BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS_FOR_HANDSET = [
   'author_name',
   'actions',
 ];
+
+export const ISBN_REGEXP = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;

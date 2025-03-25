@@ -25,6 +25,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { ISBN_REGEXP } from '../../consts';
 import { Book } from '../../entities/book.schema';
 import { InsertOrUpdateBookData } from '../../entities/insert-or-update-book.type';
 import { BookService } from '../../services/book.service';
@@ -91,7 +92,7 @@ export class AddOrEditBookComponent {
   });
 
   readonly isbn = new FormControl('', {
-    validators: [Validators.maxLength(20)],
+    validators: [Validators.pattern(ISBN_REGEXP)],
   });
 
   readonly rating = new FormControl(0, {
