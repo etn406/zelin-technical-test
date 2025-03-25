@@ -2,14 +2,15 @@
   "name": "zelin-technical-test-client",
   "version": "0.0.0",
   "scripts": {
-    "prewatch:local": "npm run build-env-json",
+    "prewatch:local": "npm run build-env-json-from-file",
     "watch:local": "dotenv -e ../.env -- npm run _watch:local",
     "_watch:local": "ng serve --configuration development --port $CLIENT_PORT",
-    "prebuild:production": "npm run build-env-json",
+    "prebuild:production": "npm run build-env-json-from-env",
     "build:production": "ng build --configuration production",
-    "test": "npm run build-env-json && ng test",
-    "build-env-json": "dotenv -e ../.env -- npm run _build-env-json",
-    "_build-env-json": "echo \"{\\\"SERVER_URL\\\":\\\"$SERVER_URL\\\",\\\"CLIENT_URL\\\":\\\"$CLIENT_URL\\\"}\" > .env.generated.json"
+    "test": "npm run build-env-json-from-file && ng test",
+    "build-env-json-from-file": "dotenv -e ../.env -- npm run _build-env-json",
+    "_build-env-json-from-file": "echo \"{\\\"SERVER_URL\\\":\\\"$SERVER_URL\\\",\\\"CLIENT_URL\\\":\\\"$CLIENT_URL\\\"}\" > .env.generated.json && cat .env.generated.json",
+    "build-env-json-from-env": "echo \"{\\\"SERVER_URL\\\":\\\"$SERVER_URL\\\",\\\"CLIENT_URL\\\":\\\"$CLIENT_URL\\\"}\" > .env.generated.json && cat .env.generated.json"
   },
   "private": true,
   "dependencies": {
