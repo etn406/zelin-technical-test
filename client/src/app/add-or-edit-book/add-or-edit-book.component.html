@@ -71,6 +71,7 @@
           matBadge="1"
           matBadgeSize="small"
           [matBadgeHidden]="!rating.dirty"
+          [editable]="!isFormDisabled()"
         ></app-star-rating>
       </div>
     </mat-card-content>

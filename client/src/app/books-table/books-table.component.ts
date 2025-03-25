@@ -83,6 +83,10 @@ export class BooksTableComponent implements AfterViewInit {
       .subscribe(() => this.parametersChange.emit(this.getBooksParams()));
   }
 
+  public humanizeDate(date: Date): string {
+    return date?.toLocaleDateString ? date.toLocaleDateString() : typeof date;
+  }
+
   /**
    * Triggers the update of the book with the new rating
    */

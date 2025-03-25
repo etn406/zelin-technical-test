@@ -205,7 +205,7 @@ export class AddOrEditBookComponent {
     return {
       title: this.title.value,
       author_name: this.author_name.value,
-      isbn: this.isbn.value,
+      isbn: this.isbn.value || undefined,
       note: this.rating.value,
     };
   }
