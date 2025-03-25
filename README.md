@@ -9,11 +9,11 @@ As requested, it's a "personnal library manager", to handle a list of books.
 
 ### REST API server with Express v5
 
-Personnaly I would have prefered a Nest.js app since it's more modern, TypeScript-oriented, and feature-packed than Express. But during the last interview I understood that Zelin is using Express.
+For a long-term project I would prefere a Nest.js app since it's more structured, TypeScript-oriented, and feature-packed than Express. But during the last interview I understood that Zelin is using Express.
 
 I chose REST over GraphQL because REST is simpler to implement with Express. In my opinion GraphQL can be interesting in environments where the frontend team works separately and changes features often, but REST is enough for this kind of small project where the frontend/backend is handled by the same person/team.
 
-### Front-end application with Angular v19
+### Front-end application with Angular v19 + Material
 
 I went with Angular as it's the frontend framework used by Zelin, and also because the one I'm the most specialized on.
 The Angular application isn't served by the Express server but by a separated nginx server, for decoupling (easier scaling, faster server startup, etc...)
@@ -29,7 +29,7 @@ I chose [Drizzle ORM](https://orm.drizzle.team/docs/overview) especially for its
 ## Requested Features
 
 - [x] I can see the list of my books. Each book has these properties : title, author, note, last modification date, ...
-- [ ] I can add a new book to the list
+- [x] I can add a new book to the list
 - [x] I can edit a book's properties
 - [x] I can delete a book
 
@@ -41,9 +41,11 @@ I chose [Drizzle ORM](https://orm.drizzle.team/docs/overview) especially for its
 
 ### Possible Enhancements
 
-Things I thought would be nice but I didn't take the time to do.
+Additional things I thought would be nice, but I didn't have the time to do:
 
-- Share the entities definitions (class `Book`for example) between the client and the server. One source of truth would avoid possible desynchronization between bakend and frontend entities.
+- Share the entities definitions (class `Book` for example) between the client and the server. One source of truth would avoid possible desynchronization between bakend and frontend entities.
+
+- Request Open Library to add books easily
 
 ## Technical Choices
 
@@ -53,7 +55,7 @@ Depending of your context, you may start the application in Docker containers fo
 
 I do not recommend to use Docker containers for active local development in `server` or `client` folders, as it will only cause issues and slowdowns with the Node Inspector, watch mode, node modules, and complicate the configuration.
 
-Even if you intend to setup a development environment, you still need Docker locally for the PostgreSQL database service.
+Even if you intend to setup a local development environment, you still need Docker for the PostgreSQL database service.
 
 #### Services from the `docker-compose.yml`
 
@@ -102,7 +104,7 @@ $ npm run drizzle-kit -- studio
 
 #### Server
 
-To automatically start the TypeScript compiler in watch mode, and concurrently the Express server in watch mode, with the Node Inspector debugging tools:
+To start the Express server in watch mode, with the Node Inspector debugging tools:
 
 ```sh
 $ cd server
@@ -111,4 +113,9 @@ $ npm run watch:local
 
 #### Client
 
-TODO
+To start the Angular app server in watch mode, with the Chrome Inspector debugging tools:
+
+```sh
+$ cd client
+$ npm run watch:local
+```
