@@ -7,7 +7,7 @@
     "_watch:local": "ng serve --configuration development --port $CLIENT_PORT",
     "prebuild:production": "npm run build-env-json",
     "build:production": "ng build --configuration production",
-    "test": "ng test",
+    "test": "npm run build-env-json && ng test",
     "build-env-json": "dotenv -e ../.env -- npm run _build-env-json",
     "_build-env-json": "echo \"{\\\"SERVER_URL\\\":\\\"$SERVER_URL\\\",\\\"CLIENT_URL\\\":\\\"$CLIENT_URL\\\"}\" > .env.generated.json"
   },

@@ -13,6 +13,7 @@ describe('StarRatingComponent', () => {
 
     fixture = TestBed.createComponent(StarRatingComponent);
     component = fixture.componentInstance;
+    component.value.set(0);
     fixture.detectChanges();
   });
 
@@ -24,38 +25,44 @@ describe('StarRatingComponent', () => {
     component.value.set(3);
     fixture.detectChanges();
 
-    const $stars = fixture.nativeElement.querySelectorAll('.mat-icon');
+    const $stars: HTMLElement[] =
+      fixture.nativeElement.querySelectorAll('mat-icon');
+
     expect($stars.length).toBe(5);
-    expect($stars[0]).toContain('star');
-    expect($stars[1]).toContain('star_half');
-    expect($stars[2]).toContain('star_border');
-    expect($stars[3]).toContain('star_border');
-    expect($stars[4]).toContain('star_border');
+    expect($stars[0].textContent).toContain('star');
+    expect($stars[1].textContent).toContain('star_half');
+    expect($stars[2].textContent).toContain('star_border');
+    expect($stars[3].textContent).toContain('star_border');
+    expect($stars[4].textContent).toContain('star_border');
   });
 
   it('should display only empty stars when 0', () => {
     component.value.set(0);
     fixture.detectChanges();
 
-    const $stars = fixture.nativeElement.querySelectorAll('.mat-icon');
+    const $stars: HTMLElement[] =
+      fixture.nativeElement.querySelectorAll('mat-icon');
+
     expect($stars.length).toBe(5);
-    expect($stars[0]).toContain('star_border');
-    expect($stars[1]).toContain('star_border');
-    expect($stars[2]).toContain('star_border');
-    expect($stars[3]).toContain('star_border');
-    expect($stars[4]).toContain('star_border');
+    expect($stars[0].textContent).toContain('star_border');
+    expect($stars[1].textContent).toContain('star_border');
+    expect($stars[2].textContent).toContain('star_border');
+    expect($stars[3].textContent).toContain('star_border');
+    expect($stars[4].textContent).toContain('star_border');
   });
 
   it('should display only full stars when 10', () => {
     component.value.set(10);
     fixture.detectChanges();
 
-    const $stars = fixture.nativeElement.querySelectorAll('.mat-icon');
+    const $stars: HTMLElement[] =
+      fixture.nativeElement.querySelectorAll('mat-icon');
+
     expect($stars.length).toBe(5);
-    expect($stars[0]).toContain('star_');
-    expect($stars[1]).toContain('star_');
-    expect($stars[2]).toContain('star_');
-    expect($stars[3]).toContain('star_');
-    expect($stars[4]).toContain('star_');
+    expect($stars[0].textContent).toContain('star');
+    expect($stars[1].textContent).toContain('star');
+    expect($stars[2].textContent).toContain('star');
+    expect($stars[3].textContent).toContain('star');
+    expect($stars[4].textContent).toContain('star');
   });
 });
