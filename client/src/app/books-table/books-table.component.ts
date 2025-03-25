@@ -1,14 +1,12 @@
 import {
   AfterViewInit,
-  booleanAttribute,
   Component,
   computed,
   inject,
   input,
-  signal,
+  output,
   ViewChild,
 } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -16,13 +14,10 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { merge, startWith, switchMap } from 'rxjs';
+import { merge, startWith } from 'rxjs';
 import {
   BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS,
   BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS_FOR_HANDSET,
-  BOOK_TABLE_DEFAULT_PAGE_SIZE,
-  BOOK_TABLE_DEFAULT_SORT_COLUMN,
-  BOOK_TABLE_DEFAULT_SORT_DIRECTION,
 } from '../../consts';
 import { Book } from '../../entities/book.schema';
 import { GetBooksParams } from '../../entities/get-books-params.interface';
@@ -50,16 +45,24 @@ export class BooksTableComponent implements AfterViewInit {
   private readonly alertService = inject(AlertService);
   private readonly bookService = inject(BookService);
 
+  readonly books = input.required<Book[]>();
+  readonly booksTotal = input.required();
+
   readonly isHandset = getHandsetSignal();
-  readonly books = signal<Book[]>([]);
-  readonly booksTotal = signal(0);
-  readonly isLoadingResults = signal(false);
 
-  deleted = input(false, {
-    transform: booleanAttribute,
-  });
+  /**
+   * Makes certain columns editable
+   */
+  readonly editable = input(true);
 
-  private readonly deleted$ = toObservable(this.deleted);
+  /**
+   * Parameters that can be modified to request the books
+   */
+  readonly parameters = input.required<GetBooksParams>();
+  readonly parametersChange = output<GetBooksParams>();
+
+  readonly sortColumn = computed(() => this.parameters().sortColumn);
+  readonly sortDirection = computed(() => this.parameters().sortDirection);
 
   readonly displayedColumns = computed(() =>
     this.isHandset()
@@ -71,36 +74,13 @@ export class BooksTableComponent implements AfterViewInit {
   @ViewChild(MatSort) matSort!: MatSort;
 
   ngAfterViewInit(): void {
-    this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
+    this.matSort.sortChange.subscribe(() => {
+      this.matPaginator.pageIndex = 0;
+    });
 
-    merge(this.matSort.sortChange, this.matPaginator.page, this.deleted$)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults.set(true);
-          return this.bookService.getBooks(this.getBooksParams());
-        })
-      )
-      .subscribe({
-        next: (data) => {
-          this.isLoadingResults.set(false);
-          this.books.set(data.books);
-          this.booksTotal.set(data.total);
-        },
-        error: (error) => {
-          if (error.name === 'HttpErrorResponse') {
-            this.alertService.error(
-              `An error occurred when requesting the books, the server may be not reacheable!`,
-              `${error.message}`
-            );
-          } else if (error.name === 'ZodError') {
-            this.alertService.error(
-              `An error occurred when parsing the response!`,
-              `${error.message}`
-            );
-          }
-        },
-      });
+    merge(this.matSort.sortChange, this.matPaginator.page)
+      .pipe(startWith({}))
+      .subscribe(() => this.parametersChange.emit(this.getBooksParams()));
   }
 
   /**
@@ -124,14 +104,24 @@ export class BooksTableComponent implements AfterViewInit {
    * Creates a object of params from the component to request books
    */
   private getBooksParams(): GetBooksParams {
-    return {
-      pageIndex: this.matPaginator?.pageIndex ?? 0,
-      pageSize: this.matPaginator?.pageSize ?? BOOK_TABLE_DEFAULT_PAGE_SIZE,
-      sortColumn: this.matSort?.active ?? BOOK_TABLE_DEFAULT_SORT_COLUMN,
-      sortDirection:
-        this.matSort?.direction || BOOK_TABLE_DEFAULT_SORT_DIRECTION,
+    const pageIndex = this.matPaginator.pageIndex;
+    const pageSize = this.matPaginator.pageSize;
+    const sortColumn = this.matSort.active;
+    const sortDirection = this.matSort.direction || 'asc';
 
-      deleted: this.deleted(),
+    console.log(this.parameters(), {
+      pageIndex,
+      pageSize,
+      sortColumn,
+      sortDirection,
+    });
+
+    return {
+      ...this.parameters(),
+      pageIndex,
+      pageSize,
+      sortColumn,
+      sortDirection,
     };
   }
 }

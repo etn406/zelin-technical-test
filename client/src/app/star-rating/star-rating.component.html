@@ -4,12 +4,19 @@
   type="button"
   [matMenuTriggerFor]="menu"
   class="small"
+  disabled="!editable"
 >
   <mat-icon inline="true">star</mat-icon>
   <span>{{ humanizeValue(value()) }}</span>
 </button>
 } @else {
-<button mat-button type="button" [matMenuTriggerFor]="menu" class="large">
+<button
+  mat-button
+  type="button"
+  [matMenuTriggerFor]="menu"
+  class="large"
+  disabled="!editable"
+>
   @for (icon of icons(); track $index) {
   <mat-icon inline="true">{{ icon }}</mat-icon>
   }

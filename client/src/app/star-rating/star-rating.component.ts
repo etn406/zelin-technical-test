@@ -24,6 +24,11 @@ enum StarIcon {
 })
 export class StarRatingComponent {
   /**
+   * Makes the component editable
+   */
+  readonly editable = input<boolean>(false);
+
+  /**
    * Displays a smaller version of the rating
    */
   readonly small = input<boolean>(false);

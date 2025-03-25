@@ -49,6 +49,7 @@ mat-card {
     .left,
     .right {
       display: flex;
+      gap: 1rem;
       align-items: center;
     }
   }
