@@ -10,3 +10,9 @@ export const BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS = [
   'note',
   'actions',
 ];
+
+export const BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS_FOR_HANDSET = [
+  'title',
+  'author_name',
+  'actions',
+];

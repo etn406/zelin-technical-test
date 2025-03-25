@@ -41,6 +41,7 @@ mat-card {
     display: flex;
     padding: 1rem;
     padding-top: 0;
+    gap: 1rem;
 
     justify-content: space-between;
     align-items: center;
@@ -49,10 +50,6 @@ mat-card {
     .right {
       display: flex;
       align-items: center;
-
-      & > *:not(:last-child) {
-        margin-right: 1rem;
-      }
     }
   }
 }
@@ -60,4 +57,26 @@ mat-card {
 form.deleted mat-card-title h2 {
   text-decoration: line-through;
   color: var(--mat-sys-on-surface-variant);
+}
+
+.isHandset {
+  mat-card-content {
+    grid-template-columns: 1fr;
+  }
+
+  mat-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .left,
+    .right {
+      display: contents;
+    }
+
+    .delete-definitely {
+      grid-row: 3;
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+  }
 }

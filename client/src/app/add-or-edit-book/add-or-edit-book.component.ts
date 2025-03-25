@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
 import { Book } from '../../entities/book.schema';
 import { InsertOrUpdateBookData } from '../../entities/insert-or-update-book.type';
 import { BookService } from '../../services/book.service';
+import { getHandsetSignal } from '../../utils/get-handset-signal';
 import { AlertService } from '../alert.service';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 
@@ -63,6 +64,7 @@ export class AddOrEditBookComponent {
 
   readonly book = model<Book>();
 
+  readonly isHandset = getHandsetSignal();
   readonly doesExistInDB = computed(() => this.book()?.id !== undefined);
   readonly isLoading = signal(false);
   readonly isDeleted = computed(() => this.book()?.deleted ?? false);

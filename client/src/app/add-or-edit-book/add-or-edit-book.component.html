@@ -1,4 +1,9 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" [class.deleted]="isDeleted()">
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  [class.deleted]="isDeleted()"
+  [class.isHandset]="isHandset()"
+>
   <mat-card>
     <mat-card-title>
       @if (isDeleted()) {
@@ -84,7 +89,7 @@
           mat-stroked-button
           type="button"
           [disabled]="form.pristine || form.disabled"
-          [hidden]="form.pristine || form.disabled"
+          [hidden]="(form.pristine || form.disabled) && !isHandset()"
           (click)="onClickOnReset()"
         >
           <mat-icon>cleaning_services</mat-icon>
@@ -100,7 +105,7 @@
           (click)="onClickOnDefinitelyDelete(book()!.id)"
           [hidden]="!isDeleted()"
           [disabled]="!isDeleted() || isLoading()"
-          class="warn"
+          class="warn delete-definitely"
         >
           <mat-icon>warning</mat-icon>
           Delete definitely

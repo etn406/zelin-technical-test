@@ -45,7 +45,7 @@ Additional things I thought would be nice, but I didn't have the time to do:
 
 - Share the entities definitions (class `Book` for example) between the client and the server. One source of truth would avoid possible desynchronization between bakend and frontend entities.
 
-- Request Open Library to add books easily
+- Request Open Library to search new books and gather data easily
 
 ## Technical Choices
 

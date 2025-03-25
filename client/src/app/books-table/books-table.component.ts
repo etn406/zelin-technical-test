@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  computed,
   inject,
   signal,
   ViewChild,
@@ -15,6 +16,7 @@ import { RouterLink } from '@angular/router';
 import { merge, startWith, switchMap } from 'rxjs';
 import {
   BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS,
+  BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS_FOR_HANDSET,
   BOOK_TABLE_DEFAULT_PAGE_SIZE,
   BOOK_TABLE_DEFAULT_SORT_COLUMN,
   BOOK_TABLE_DEFAULT_SORT_DIRECTION,
@@ -49,8 +51,11 @@ export class BooksTableComponent implements AfterViewInit {
   readonly books = signal<Book[]>([]);
   readonly booksTotal = signal(0);
   readonly isLoadingResults = signal(false);
-  readonly displayedColumns = signal<string[]>(
-    BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS
+
+  readonly displayedColumns = computed(() =>
+    this.isHandset()
+      ? BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS_FOR_HANDSET
+      : BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS
   );
 
   @ViewChild(MatPaginator) matPaginator!: MatPaginator;
