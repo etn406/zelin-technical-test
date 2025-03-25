@@ -1,11 +1,14 @@
 import {
   AfterViewInit,
+  booleanAttribute,
   Component,
   computed,
   inject,
+  input,
   signal,
   ViewChild,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -52,6 +55,12 @@ export class BooksTableComponent implements AfterViewInit {
   readonly booksTotal = signal(0);
   readonly isLoadingResults = signal(false);
 
+  deleted = input(false, {
+    transform: booleanAttribute,
+  });
+
+  private readonly deleted$ = toObservable(this.deleted);
+
   readonly displayedColumns = computed(() =>
     this.isHandset()
       ? BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS_FOR_HANDSET
@@ -64,7 +73,7 @@ export class BooksTableComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.matSort.sortChange.subscribe(() => (this.matPaginator.pageIndex = 0));
 
-    merge(this.matSort.sortChange, this.matPaginator.page)
+    merge(this.matSort.sortChange, this.matPaginator.page, this.deleted$)
       .pipe(
         startWith({}),
         switchMap(() => {
@@ -94,6 +103,9 @@ export class BooksTableComponent implements AfterViewInit {
       });
   }
 
+  /**
+   * Triggers the update of the book with the new rating
+   */
   public onRatingChange(bookId: number, value: number): void {
     this.bookService.updateBook(bookId, { note: value }).subscribe({
       next: (book) => {
@@ -108,6 +120,9 @@ export class BooksTableComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * Creates a object of params from the component to request books
+   */
   private getBooksParams(): GetBooksParams {
     return {
       pageIndex: this.matPaginator?.pageIndex ?? 0,
@@ -116,7 +131,7 @@ export class BooksTableComponent implements AfterViewInit {
       sortDirection:
         this.matSort?.direction || BOOK_TABLE_DEFAULT_SORT_DIRECTION,
 
-      deleted: false,
+      deleted: this.deleted(),
     };
   }
 }

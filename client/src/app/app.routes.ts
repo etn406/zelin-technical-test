@@ -4,18 +4,19 @@ import { bookResolver } from './book.resolver';
 import { BooksTableComponent } from './books-table/books-table.component';
 
 export const routes: Routes = [
-  { path: 'books', component: BooksTableComponent },
+  { path: 'books', component: BooksTableComponent, title: 'All Books' },
 
   {
     path: 'books/add',
     component: AddOrEditBookComponent,
-    resolve: {},
+    title: 'Add a book',
   },
 
   {
     path: 'books/:id',
     component: AddOrEditBookComponent,
     resolve: { book: bookResolver },
+    title: 'Edit a book',
   },
 
   { path: '', redirectTo: 'books', pathMatch: 'full' },

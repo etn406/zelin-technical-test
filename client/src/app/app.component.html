@@ -22,6 +22,17 @@
 
       <a
         mat-list-item
+        routerLink="/books"
+        [queryParams]="{ deleted: true }"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+      >
+        <mat-icon matListItemIcon>restore_from_trash</mat-icon>
+        Deleted Books
+      </a>
+
+      <a
+        mat-list-item
         [routerLink]="['books', 'add']"
         routerLinkActive="active"
         ariaCurrentWhenActive="page"
