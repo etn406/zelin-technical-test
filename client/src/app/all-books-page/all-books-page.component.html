@@ -1,6 +1,11 @@
-<app-books-table
-  [parameters]="parameters()"
-  (parametersChange)="onParametersChange($event)"
-  [books]="books()"
-  [booksTotal]="booksTotal()"
-></app-books-table>
+<mat-card>
+  <mat-card-title><h2>All My Books</h2></mat-card-title>
+
+  <app-books-table
+    [parameters]="parameters()"
+    (parametersChange)="onParametersChange($event)"
+    [books]="books()"
+    [booksTotal]="booksTotal()"
+    [editable]="false"
+  ></app-books-table>
+</mat-card>
