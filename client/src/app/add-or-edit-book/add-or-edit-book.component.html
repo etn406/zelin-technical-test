@@ -15,51 +15,54 @@
     </mat-card-title>
 
     <mat-card-content>
-      <div class="line1">
-        <mat-form-field
-          matBadge="1"
-          matBadgeSize="small"
-          [matBadgeHidden]="!title.dirty"
-        >
-          <mat-label>Title</mat-label>
-          <input matInput id="title" type="text" [formControl]="title" />
-        </mat-form-field>
+      <mat-form-field
+        matBadge="1"
+        matBadgeSize="small"
+        [matBadgeHidden]="!title.dirty"
+        class="title"
+        subscriptSizing="dynamic"
+      >
+        <mat-label>Title</mat-label>
+        <input matInput id="title" type="text" [formControl]="title" />
+      </mat-form-field>
 
-        <mat-form-field
-          matBadge="1"
-          matBadgeSize="small"
-          [matBadgeHidden]="!author_name.dirty"
-        >
-          <mat-label>Author</mat-label>
-          <input
-            matInput
-            id="author_name"
-            type="text"
-            [formControl]="author_name"
-          />
-        </mat-form-field>
+      <mat-form-field
+        matBadge="1"
+        matBadgeSize="small"
+        [matBadgeHidden]="!author_name.dirty"
+        class="author_name"
+        subscriptSizing="dynamic"
+      >
+        <mat-label>Author</mat-label>
+        <input
+          matInput
+          id="author_name"
+          type="text"
+          [formControl]="author_name"
+        />
+      </mat-form-field>
 
-        <mat-form-field
-          matBadge="1"
-          matBadgeSize="small"
-          [matBadgeHidden]="!isbn.dirty"
-        >
-          <mat-label>ISBN</mat-label>
-          <input
-            matInput
-            id="isbn"
-            type="text"
-            [formControl]="isbn"
-            placeholder="XXX-X-XXXX-XXXX-X"
-          />
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-slider min="0" max="10" step="1" showTickMarks>
-          <input matSliderThumb [formControl]="rating" />
-        </mat-slider>
+      <mat-form-field
+        matBadge="1"
+        matBadgeSize="small"
+        [matBadgeHidden]="!isbn.dirty"
+        class="isbn"
+        subscriptSizing="dynamic"
+      >
+        <mat-label>ISBN</mat-label>
+        <input
+          matInput
+          id="isbn"
+          type="text"
+          [formControl]="isbn"
+          placeholder="XXX-X-XXXX-XXXX-X"
+        />
+      </mat-form-field>
+
+      <div class="rating">
         <app-star-rating
-          [value]="rating.value ?? 0"
+          [value]="rating.value"
+          (valueChange)="setRating($event)"
           matBadge="1"
           matBadgeSize="small"
           [matBadgeHidden]="!rating.dirty"

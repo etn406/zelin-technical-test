@@ -5,7 +5,9 @@ import {
   input,
   model,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 enum StarIcon {
   Full = 'star',
@@ -15,33 +17,43 @@ enum StarIcon {
 
 @Component({
   selector: 'app-star-rating',
-  imports: [MatIcon],
+  imports: [MatIcon, MatButtonModule, MatMenuModule],
   templateUrl: './star-rating.component.html',
   styleUrl: './star-rating.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StarRatingComponent {
-  readonly value = model.required<number>();
+  /**
+   * Displays a smaller version of the rating
+   */
   readonly small = input<boolean>(false);
 
-  readonly correctedValue = computed(() =>
-    Math.max(0, Math.min(10, Math.round(this.value())))
-  );
+  /**
+   * Rating between 0 and 10 (included)
+   */
+  readonly value = model.required<number>();
 
-  // Internal rating value are between 0 and 10, but the user sees it between 0 and 5 (with half .5)
-  readonly humanizedValue = computed(() => this.correctedValue() / 2);
+  // List of the icons to use  to represent the value
+  readonly icons = computed<StarIcon[]>(() => this.getIcons(this.value()));
 
-  readonly star1 = computed<StarIcon>(() => this.getIcon(this.value(), 2));
-  readonly star2 = computed<StarIcon>(() => this.getIcon(this.value(), 4));
-  readonly star3 = computed<StarIcon>(() => this.getIcon(this.value(), 6));
-  readonly star4 = computed<StarIcon>(() => this.getIcon(this.value(), 8));
-  readonly star5 = computed<StarIcon>(() => this.getIcon(this.value(), 10));
+  /**
+   * Get the 5 icons names for the given value.
+   */
+  public getIcons(value: number): StarIcon[] {
+    return [2, 4, 6, 8, 10].map((n) =>
+      value < n - 1 ? StarIcon.Empty : value < n ? StarIcon.Half : StarIcon.Full
+    );
+  }
 
-  private getIcon(value: number, n: number): StarIcon {
-    return value < n - 1
-      ? StarIcon.Empty
-      : value < n
-      ? StarIcon.Half
-      : StarIcon.Full;
+  /**
+   * Internal rating value are between 0 and 10,
+   * but the user sees it between 0 and 5 (with half .5)
+   */
+  public humanizeValue(value: number): string {
+    return `${Math.max(0, Math.min(10, Math.round(value))) / 2}`;
+  }
+
+  public onClickOnNewValue(value: number): void {
+    this.value.set(value);
   }
 }

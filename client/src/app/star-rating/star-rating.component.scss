@@ -1,7 +1,25 @@
+:host {
+  display: inline-block;
+}
+
 .small {
   display: flex;
   align-items: center;
   gap: 0.3em;
   font-size: small;
   font-weight: bold;
+}
+
+.large {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.mat-mdc-button > .mat-icon {
+  margin: 0;
+}
+
+[mat-menu-item] {
+  font-size: small;
 }

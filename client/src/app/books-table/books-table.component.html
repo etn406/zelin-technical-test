@@ -31,18 +31,28 @@
       <td mat-cell *matCellDef="let row">
         <app-star-rating
           [value]="row.note"
+          (valueChange)="onRatingChange(row.id, $event)"
           [small]="isHandset()"
         ></app-star-rating>
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let row">
+        <button
+          mat-icon-button
+          matTooltip="Access the details of this book"
+          [routerLink]="['/books', row.id]"
+        >
+          <mat-icon>edit_note</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
 
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns()"
-      [routerLink]="['/books', row.id]"
-    ></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
   </table>
 
   <mat-paginator

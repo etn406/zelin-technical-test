@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   Component,
   computed,
@@ -55,6 +56,7 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
   styleUrl: './add-or-edit-book.component.scss',
 })
 export class AddOrEditBookComponent {
+  private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly alertService = inject(AlertService);
   private readonly router = inject(Router);
   private readonly bookService = inject(BookService);
@@ -90,7 +92,9 @@ export class AddOrEditBookComponent {
     validators: [Validators.maxLength(20)],
   });
 
-  readonly rating = new FormControl(0);
+  readonly rating = new FormControl(0, {
+    nonNullable: true,
+  });
 
   readonly form = new FormGroup({
     title: this.title,
@@ -177,6 +181,11 @@ export class AddOrEditBookComponent {
         this.isLoading.set(false);
       },
     });
+  }
+
+  setRating(value: number): void {
+    this.rating.setValue(value);
+    this.rating.markAsDirty();
   }
 
   private applyBookDataToFormFields(): void {

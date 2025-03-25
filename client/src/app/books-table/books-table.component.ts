@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { merge, startWith, switchMap } from 'rxjs';
 import {
@@ -37,6 +38,7 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
     MatIconModule,
     MatButtonModule,
     RouterLink,
+    MatTooltipModule,
   ],
 })
 export class BooksTableComponent implements AfterViewInit {
@@ -47,7 +49,7 @@ export class BooksTableComponent implements AfterViewInit {
   readonly books = signal<Book[]>([]);
   readonly booksTotal = signal(0);
   readonly isLoadingResults = signal(false);
-  readonly displayedColumns = signal<(keyof Book)[]>(
+  readonly displayedColumns = signal<string[]>(
     BOOK_TABLE_DEFAULT_DISPLAYED_COLUMNS
   );
 
@@ -85,6 +87,20 @@ export class BooksTableComponent implements AfterViewInit {
           }
         },
       });
+  }
+
+  public onRatingChange(bookId: number, value: number): void {
+    this.bookService.updateBook(bookId, { note: value }).subscribe({
+      next: (book) => {
+        this.alertService.info(`Book rating updated successfully!`);
+      },
+      error: (error) => {
+        this.alertService.error(
+          `An error occurred when updating the book!`,
+          `${error.message}`
+        );
+      },
+    });
   }
 
   private getBooksParams(): GetBooksParams {
