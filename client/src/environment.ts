@@ -9,6 +9,14 @@ const envSchema = z.object({
 
 const env = envSchema.parse(unsafeEnv);
 
+if (!env.SERVER_URL) {
+  throw new Error("Env var SERVER_URL isn't defined");
+}
+
+if (!env.CLIENT_URL) {
+  throw new Error("Env var CLIENT_URL isn't defined");
+}
+
 export const environment = {
   serverURL: env.SERVER_URL,
   clientURL: env.CLIENT_URL,
