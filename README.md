@@ -47,6 +47,10 @@ Additional things I thought would be nice, but I didn't have the time to do:
 
 - Request Open Library to search new books and gather data easily
 
+- Synchronize the filters of the book list page with the URL parameters
+
+- Run end-to-end tests with a testing database
+
 ## Technical Choices
 
 ### Local / Containerized
@@ -118,4 +122,13 @@ To start the Angular app server in watch mode, with the Chrome Inspector debuggi
 ```sh
 $ cd client
 $ npm run watch:local
+```
+
+#### Tests
+
+I only had time to write tests for the `BookService` and the `StarRatingComponent` on the front-end.
+
+```sh
+$ cd client
+$ npm run test
 ```
